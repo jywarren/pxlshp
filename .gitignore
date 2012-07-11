@@ -1,0 +1,10 @@
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
+*.swp
+.DS_Store
+log/
+db/schema.rb
+config/database.yml
+config/config.yml

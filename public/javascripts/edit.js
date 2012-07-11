@@ -31,10 +31,8 @@ $P = {
 		$P.dragging = true
 		$P.getPointer(e)
 		if ($P.isBlack($P.pointer_x,$P.pointer_y)) {
-			console.log('black')
 			$C.fillStyle = "white"
 		} else {
-			console.log('white')
 			$C.fillStyle = "black"
 		}
 		$P.drawPixel()
@@ -73,10 +71,14 @@ $P = {
 
 	save: function() {
 		$.ajax({
-			url:"/scrolls/advance/"+Page.scroll_id,
+			url:"/icon/create",
 			success: function(data) {
 				$('#notice').html(data)
 				setTimeout(function(){ $('#notice').html("") },1500)
+			}, 
+			failure: function(data) {
+				$('#error').html("<p>There was an error</p>")
+				setTimeout(function(){ $('#error').html("") },1500)
 			} 
 		})
 	},
