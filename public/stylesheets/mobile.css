@@ -28,6 +28,7 @@ canvas {
 	padding:5px;
 	margin-right:5px;
 	margin-bottom:5px;
+	float:left;
 }
 .icon img {
 	width:32px;
