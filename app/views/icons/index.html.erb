@@ -1,0 +1,46 @@
+<script>
+clear_input = function() {
+	$('#icon_name').val("")
+	$('#icon_name').removeClass("grey")
+}
+</script>
+
+<div data-role="page" id="page1">
+
+	<div data-theme="d" data-role="header">
+		<h3>Pxlshp</h3>
+	</div>
+
+	<div data-role="content" style="padding: 15px; text-align:center;">
+
+		<p id="notice"></p>
+		<p id="error"></p>
+		
+		<h3>Icons</h3>
+
+		<div id="icons">
+		<% @icons.each do |icon| %>
+			<div class="icon">
+				<a href="/icon/<%= icon.id %>"><img src="<%= icon.image_data %>" /></a><br />
+				<a href="/icon/<%= icon.id %>"><%= icon.name %></a>
+			</div>
+		<% end %>
+		</div>
+		<br style="clear:both"/>
+
+		<form action="/create" method="post">
+			<input class="grey" id="icon_name" type="text" value="Name" onFocus="clear_input()" name="icon[name]" />
+			<input type="submit" data-role="button" data-theme="b" href="javascript:void();" value="New" />
+		</form>
+
+	</div>
+</div>
+
+<script src="/javascripts/edit.js"> </script>
+
+<script> 
+(function () { 
+
+
+})() 
+</script>

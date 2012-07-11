@@ -1,0 +1,36 @@
+canvas { background:white; border:2px solid #aaa; }
+
+#notice, .notice { 
+	position:absolute;
+	width:100%;
+	color:#0a0;
+	background:#afa;
+	margin-top:0;
+}
+#error, .error { 
+	position:absolute;
+	width:100%;
+	color:#a52;
+	background:#FCFFB3;
+	margin-top:0;
+}
+
+#notice p, #error p { padding:4px; }
+
+.grey { color:#ccc; }
+
+.icon {
+	border:2px solid #ccc;
+	width:32px;
+	padding:5px;
+	margin-right:5px;
+	margin-bottom:5px;
+}
+.icon img {
+	width:32px;
+	height:32px;
+}
+
+.icons {
+	padding:12px;
+}

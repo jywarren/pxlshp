@@ -4,15 +4,15 @@ var ajax_load = "<img src='/images/spinner-small.gif' alt='loading...' />";
 $P = {
 	pointer_x: 0,
 	pointer_y: 0,
-	x_offset: 0,
-	initialize: function() {
+	v_offset: 60,
+	initialize: function(image_data) {
 		$P.element = $('#canvas')
 		$P.element = $('#canvas')[0]
 		$P.canvas = $P.element.getContext('2d');
 		$C = $P.canvas
-		$P.width = 256
-		$P.height = 256
-		$P.iconSize = 32
+		$P.width = 512//256
+		$P.height = 512//256
+		$P.iconSize = 16
 		$P.pixelSize = $P.width/$P.iconSize
 		$P.element.width = $P.width+"px"
 		$P.element.height = $P.height+"px"
@@ -21,10 +21,15 @@ $P = {
 		$('body').mouseup($P.on_mouseup)
 		$('body').mousedown($P.on_mousedown)
 		$('body').mousemove($P.on_mousemove)
-		$P.element.addEventListener('touchend',$P.on_mouseup)
-		$P.element.addEventListener('touchstart',$P.on_mousedown)
-		$P.element.addEventListener('touchmove',$P.on_mousemove)
-		setInterval($P.draw,1500)
+		window.addEventListener('touchend',$P.on_mouseup)
+		window.addEventListener('touchstart',$P.on_mousedown)
+		window.addEventListener('touchmove',$P.on_mousemove)
+		//setInterval($P.draw,1500)
+		$P.image = new Image()
+		$P.image.onload = function() {
+			$C.drawImage($P.image,0,0)
+		}
+		$P.image.src = image_data
 	},
 	on_mousedown: function(e) {
 		e.preventDefault()
@@ -51,14 +56,18 @@ $P = {
 	drawPixel: function() {
 		x = parseInt($P.pointer_x/$P.width*$P.iconSize)
 		y = parseInt($P.pointer_y/$P.height*$P.iconSize)
-		$C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.pixelSize,$P.pixelSize)
+		if (x >= 0 && x < $P.iconSize && y >= 0 && y < $P.iconSize) {
+			$C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.pixelSize,$P.pixelSize)
+		}
 	},
 
 	getPointer: function(e) {
 		if (e.touches && (e.touches[0] || e.changedTouches[0])) {
 			var touch = e.touches[0] || e.changedTouches[0];
-			$P.pointer_x = touch.offsetX
-			$P.pointer_y = touch.offsetY
+			offsetX = ($(window).width()-$P.width)/2;
+			offsetY = $P.v_offset;//($(window).height()-$P.height)/2;
+			$P.pointer_x = touch.pageX - offsetX;
+			$P.pointer_y = touch.pageY - offsetY;
 		} else {
 			$P.pointer_x = e.offsetX
 			$P.pointer_y = e.offsetY
@@ -71,9 +80,11 @@ $P = {
 
 	save: function() {
 		$.ajax({
-			url:"/icon/create",
+			url:"/save/"+$P.icon_id,
+			type: "POST",
+			data: { image_data: $P.excerptCanvas(0,0,$P.width,$P.height) },
 			success: function(data) {
-				$('#notice').html(data)
+				$('#notice').html("<p>"+data+"</p>")
 				setTimeout(function(){ $('#notice').html("") },1500)
 			}, 
 			failure: function(data) {

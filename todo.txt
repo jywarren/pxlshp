@@ -1,0 +1,4 @@
+
+
+- reduce size to pixels before saving (so we can just display them directly from dataurl)
+
