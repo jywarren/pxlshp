@@ -1,4 +1,7 @@
-canvas { background:white; border:2px solid #aaa; }
+canvas { 
+	background:white; 
+	border:2px solid #aaa;
+}
 
 #notice, .notice { 
 	position:absolute;
@@ -15,7 +18,7 @@ canvas { background:white; border:2px solid #aaa; }
 	margin-top:0;
 }
 
-#notice p, #error p { padding:4px; }
+#notice p, #error p { padding:8px 16px; }
 
 .grey { color:#ccc; }
 
@@ -29,6 +32,9 @@ canvas { background:white; border:2px solid #aaa; }
 .icon img {
 	width:32px;
 	height:32px;
+}
+.icon:hover {
+	background:#ddd;
 }
 
 .icons {

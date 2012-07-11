@@ -10,8 +10,8 @@ $P = {
 		$P.element = $('#canvas')[0]
 		$P.canvas = $P.element.getContext('2d');
 		$C = $P.canvas
-		$P.width = 512//256
-		$P.height = 512//256
+		$P.width = 256
+		$P.height = 256
 		$P.iconSize = 16
 		$P.pixelSize = $P.width/$P.iconSize
 		$P.element.width = $P.width+"px"
@@ -79,6 +79,7 @@ $P = {
 	},
 
 	save: function() {
+		$('#notice').html("<p>Sending...</p>")
 		$.ajax({
 			url:"/save/"+$P.icon_id,
 			type: "POST",

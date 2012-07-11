@@ -5,14 +5,14 @@
 		<h3><a href="/edit/1">permalink</a></h3>
 	</div>
 
+	<p id="notice"></p>
+	<p id="error"></p>
+
 	<div data-role="content" style="padding: 15px; text-align:center;">
 
-		<p id="notice"></p>
-		<p id="error"></p>
-		
 		<canvas id="canvas"></canvas>
 
-		<a data-role="button" data-theme="b" href="javascript:void()" onClick="$P.save();">Save</a>
+		<a data-role="button" data-theme="b" href="javascript:void()" onTouch="$P.save()" onClick="$P.save();">Save</a>
 	</div>
 </div>
 
