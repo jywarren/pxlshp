@@ -4,14 +4,18 @@ var ajax_load = "<img src='/images/spinner-small.gif' alt='loading...' />";
 $P = {
 	pointer_x: 0,
 	pointer_y: 0,
-	v_offset: 60,
-	initialize: function(image_data) {
+	v_offset: 60, // height of the canvas below top of page
+
+	/**
+	 * Startup environment, accepts data_url or just URL of starting image
+	**/
+	initialize: function(image_data,displaySize) {
 		$P.element = $('#canvas')
 		$P.element = $('#canvas')[0]
 		$P.canvas = $P.element.getContext('2d');
 		$C = $P.canvas
-		$P.width = 256
-		$P.height = 256
+		$P.width = displaySize || 256
+		$P.height = $P.width
 		$P.iconSize = 16
 		$P.pixelSize = $P.width/$P.iconSize
 		$P.element.width = $P.width+"px"
@@ -25,18 +29,14 @@ $P = {
 		window.addEventListener('touchstart',$P.on_mousedown)
 		window.addEventListener('touchmove',$P.on_mousemove)
 		//setInterval($P.draw,1500)
-		$P.image = new Image()
-		$P.image.onload = function() {
-			$C.drawImage($P.image,0,0)
-		}
-		$P.image.src = image_data
+		if (image_data != "") $P.displayIcon(image_data)
 	},
 	on_mousedown: function(e) {
 		e.preventDefault()
 		$P.dragging = true
 		$P.getPointer(e)
 		if ($P.isBlack($P.pointer_x,$P.pointer_y)) {
-			$C.fillStyle = "white"
+			$P.clear = true
 		} else {
 			$C.fillStyle = "black"
 		}
@@ -45,6 +45,7 @@ $P = {
 	on_mouseup: function(e) {
 		e.preventDefault()
 		$P.dragging = false
+		$P.clear = false
 	},
 	on_mousemove: function(e) {
 		if ($P.dragging) {
@@ -53,14 +54,22 @@ $P = {
 		}
 	},
 
+	/**
+	 * Draws a pixel of black or clear at the pointer location
+	**/
 	drawPixel: function() {
 		x = parseInt($P.pointer_x/$P.width*$P.iconSize)
 		y = parseInt($P.pointer_y/$P.height*$P.iconSize)
 		if (x >= 0 && x < $P.iconSize && y >= 0 && y < $P.iconSize) {
-			$C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.pixelSize,$P.pixelSize)
+			if ($P.clear) $C.clearRect(x*$P.pixelSize,y*$P.pixelSize,$P.pixelSize,$P.pixelSize)
+			else $C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.pixelSize,$P.pixelSize)
 		}
 	},
 
+	/**
+	 * Refetches the pointer position and stores it in $P.pointer_x, $P.pointer_y
+	 * and handles touch events too.
+	**/
 	getPointer: function(e) {
 		if (e.touches && (e.touches[0] || e.changedTouches[0])) {
 			var touch = e.touches[0] || e.changedTouches[0];
@@ -74,27 +83,74 @@ $P = {
 		}
 	},
 	isBlack: function(x,y) {
-		px = $C.getImageData(x,y,1,1).data
+		px = $C.getImageData(x+1,y+1,1,1).data
 		return px[0] == 0 && px[1] == 0 && px[2] == 0 && px[3] != 0
 	},
 
+	/**
+	 * Given a data_url or URL (src), displays it, scaled up without aliasing
+	**/
+	displayIcon: function(src) {
+		$P.displayImage = new Image()
+		$P.displayImage.onload = function() {
+			$('body').append("<canvas style='' id='displayCanvas'></canvas>")
+			var element = $('#displayCanvas')[0]
+			element.width = $P.iconSize
+			element.height = $P.iconSize
+			var displayCanvasContext = element.getContext('2d')
+			displayCanvasContext.drawImage($P.displayImage,0,0,$P.iconSize,$P.iconSize)
+			var img = displayCanvasContext.getImageData(0,0,$P.iconSize,$P.iconSize).data
+			for (i=0;i<img.length/4;i+=1) {
+				x = i-(Math.floor(i/$P.iconSize)*$P.iconSize)
+				y = Math.floor(i/$P.iconSize)
+				j = i*4
+				$C.fillStyle = "rgba("+img[j]+","+img[j+1]+","+img[j+2]+","+img[j+3]+")"
+				$C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.pixelSize,$P.pixelSize)
+			}
+		}
+		$P.displayImage.src = src
+	},
+
+	/**
+	 * Duh
+	**/
 	save: function() {
 		$('#notice').html("<p>Sending...</p>")
-		$.ajax({
-			url:"/save/"+$P.icon_id,
-			type: "POST",
-			data: { image_data: $P.excerptCanvas(0,0,$P.width,$P.height) },
-			success: function(data) {
-				$('#notice').html("<p>"+data+"</p>")
-				setTimeout(function(){ $('#notice').html("") },1500)
-			}, 
-			failure: function(data) {
-				$('#error').html("<p>There was an error</p>")
-				setTimeout(function(){ $('#error').html("") },1500)
-			} 
+		$P.getScaledIcon(function() {
+			$.ajax({
+				url:"/save/"+$P.icon_id,
+				type: "POST",
+				data: { image_data: $P.scaled_icon },
+				success: function(data) {
+					$('#notice').html("<p>"+data+"</p>")
+					setTimeout(function(){ $('#notice').html("") },1500)
+				}, 
+				failure: function(data) {
+					$('#error').html("<p>There was an error</p>")
+					setTimeout(function(){ $('#error').html("") },1500)
+				} 
+			})
 		})
 	},
 
+	/**
+	 * Returns a dataURL string of any rect from the offered canvas, resized to given h,w
+	 */
+	getScaledIcon: function(callback) {
+		$P.on_scaled_icon = callback
+		$P.scaled_image = new Image()
+		$P.scaled_image.onload = function() {
+			$('body').append("<canvas style='' id='excerptCanvas'></canvas>")
+			var element = $('#excerptCanvas')[0]
+			element.width = $P.iconSize
+			element.height = $P.iconSize
+			var excerptCanvasContext = element.getContext('2d')
+			excerptCanvasContext.drawImage($P.scaled_image,0,0,$P.iconSize,$P.iconSize)
+			$P.scaled_icon = excerptCanvasContext.canvas.toDataURL()
+			$P.on_scaled_icon()
+		}
+		$P.scaled_image.src = $P.excerptCanvas(0,0,$P.width,$P.height)
+	},
 	/**
 	 * Returns a dataURL string of any rect from the offered canvas
 	 */

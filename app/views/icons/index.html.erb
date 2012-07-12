@@ -8,7 +8,7 @@ clear_input = function() {
 <div data-role="page" id="page1">
 
 	<div data-theme="d" data-role="header">
-		<h3>Pxlshp</h3>
+		<h3><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABIUlEQVQ4T41Ty27EIAwMdJVLElbtLVKi/v9fbZV7u0uUS9SGziCDCGEfSBYC2+PxGFT1fP0g5AxTYrsMXt5bFzgM7IMBXde5eZ4P8Y8AdsDGGGetfQwwDMPGIJpzziilbN/3v8uyaEm+Nk1jcH4L6AHxAscAxymnivMG6jqhQ03ec4Doz6g6OGg3qWypC0BVAI09JfSruq494LquTE6rh0KRRQRAZfafU+X4DgBg8xd0SFVltXiWIJ5fY8Be27Z1UL6igY2nK/169bXW7P0m78NP4jDXguoByE9D/AT29wSgIH6J0kqq7sA5HawqfY28yxlEdQHi/wDbYaHSKywBMPgL9hlY3dvHcdymadKlv/CNJP+BniUXRRTlA/3iZ0vb+QcNA5KIkmKUwwAAAABJRU5ErkJggg==" /> Pxlshp</h3>
 	</div>
 
 	<p id="notice"></p>
@@ -20,7 +20,7 @@ clear_input = function() {
 		<% @icons.each do |icon| %>
 			<div class="icon">
 				<a href="/icon/<%= icon.id %>"><img src="<%= icon.image_data %>" /></a><br />
-				<a href="/icon/<%= icon.id %>"><%= icon.name %></a>
+				<a href="/icon/<%= icon.id %>"><%=h icon.name %></a>
 			</div>
 		<% end %>
 		</div>
@@ -30,6 +30,8 @@ clear_input = function() {
 			<input class="grey" id="icon_name" type="text" value="Name" onFocus="clear_input()" name="icon[name]" />
 			<input type="submit" data-role="button" data-theme="b" href="javascript:void();" value="New" />
 		</form>
+
+		<p>Pxlshp is <a href="https://github.com/jywarren/pxlshp">free software</a> by <a href="http://unterbahn.com">Jeffrey Warren</a></p>
 
 	</div>
 </div>
