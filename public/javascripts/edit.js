@@ -4,24 +4,25 @@ var ajax_load = "<img src='/images/spinner-small.gif' alt='loading...' />";
 $P = {
 	pointer_x: 0,
 	pointer_y: 0,
-	v_offset: 60, // height of the canvas below top of page
+	v_offset: 60, // height of the canvas below top of page, used only for touch events
 
 	/**
 	 * Startup environment, accepts data_url or just URL of starting image
 	**/
-	initialize: function(image_data,displaySize) {
+	initialize: function(args) {
 		$P.element = $('#canvas')
 		$P.element = $('#canvas')[0]
 		$P.canvas = $P.element.getContext('2d');
 		$C = $P.canvas
-		$P.width = displaySize || 256
+		if ($(window).width() < $(window).height()) $P.width = args['displaySize'] || $(window).width()-30 //256
+		else $P.width = args['displaySize'] || ($(window).width()-30)/3
 		$P.height = $P.width
-		$P.iconSize = 16
-		$P.pixelSize = $P.width/$P.iconSize
-		$P.element.width = $P.width+"px"
-		$P.element.height = $P.height+"px"
 		$P.element.width = $P.width
-		$P.element.height = $P.height
+		$P.element.height = $P.width
+		$P.iconSize = 8//16
+		$P.pixelSize = $P.width/$P.iconSize
+		$P.intPixelSize = Math.floor($P.width/$P.iconSize)
+		$P.grid = args['grid'] || true
 		$('body').mouseup($P.on_mouseup)
 		$('body').mousedown($P.on_mousedown)
 		$('body').mousemove($P.on_mousemove)
@@ -29,7 +30,9 @@ $P = {
 		window.addEventListener('touchstart',$P.on_mousedown)
 		window.addEventListener('touchmove',$P.on_mousemove)
 		//setInterval($P.draw,1500)
-		if (image_data != "") $P.displayIcon(image_data)
+		if (args['image_data'] != "") $P.displayIcon(args['image_data'])
+		if ($P.grid) $P.drawGrid() 
+		$P.generatePermalink()
 	},
 	on_mousedown: function(e) {
 		e.preventDefault()
@@ -46,6 +49,8 @@ $P = {
 		e.preventDefault()
 		$P.dragging = false
 		$P.clear = false
+		if ($P.grid) $P.drawGrid() 
+		$P.generatePermalink()
 	},
 	on_mousemove: function(e) {
 		if ($P.dragging) {
@@ -61,8 +66,8 @@ $P = {
 		x = parseInt($P.pointer_x/$P.width*$P.iconSize)
 		y = parseInt($P.pointer_y/$P.height*$P.iconSize)
 		if (x >= 0 && x < $P.iconSize && y >= 0 && y < $P.iconSize) {
-			if ($P.clear) $C.clearRect(x*$P.pixelSize,y*$P.pixelSize,$P.pixelSize,$P.pixelSize)
-			else $C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.pixelSize,$P.pixelSize)
+			if ($P.clear) $C.clearRect(x*$P.pixelSize,y*$P.pixelSize,$P.intPixelSize,$P.intPixelSize)
+			else $C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.intPixelSize,$P.intPixelSize)
 		}
 	},
 
@@ -83,8 +88,30 @@ $P = {
 		}
 	},
 	isBlack: function(x,y) {
-		px = $C.getImageData(x+1,y+1,1,1).data
+		px = $C.getImageData(x+2,y+2,1,1).data
 		return px[0] == 0 && px[1] == 0 && px[2] == 0 && px[3] != 0
+	},
+
+
+	/**
+	 * Draws a pixel grid 
+	**/
+	drawGrid: function(color) {
+		color = color || "#cccccc"
+		$C.setStrokeColor(color)
+		$C.lineWidth = 1
+		for (i=1;i<$P.iconSize;i++) {
+			$C.beginPath()
+			$C.moveTo(Math.floor(i*$P.pixelSize),0)
+			$C.lineTo(Math.floor(i*$P.pixelSize),$P.height)
+			$C.stroke()
+		}
+		for (i=1;i<$P.iconSize;i++) {
+			$C.beginPath()
+			$C.moveTo(0,Math.floor(i*$P.pixelSize))
+			$C.lineTo($P.width,Math.floor(i*$P.pixelSize))
+			$C.stroke()
+		}
 	},
 
 	/**
@@ -107,8 +134,37 @@ $P = {
 				$C.fillStyle = "rgba("+img[j]+","+img[j+1]+","+img[j+2]+","+img[j+3]+")"
 				$C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.pixelSize,$P.pixelSize)
 			}
+			if ($P.grid) $P.drawGrid() 
 		}
 		$P.displayImage.src = src
+	},
+
+	/**
+	 * Generates a b64 permalink and displays it
+	**/
+	generatePermalink: function() {
+		s = $P.encodeIconString()
+		console.log(s)
+		$('#permalink').html("/bw8/"+s)
+		$('#permalink')[0].href = "/bw8/"+s
+	},
+
+	/**
+	 * Converts the icon into a URL string for permalinks, default black & white or "bw"
+	**/
+	encodeIconString: function(type) {
+		if (type == "gs") {
+			//greyscale
+		} else {
+			pixelNum = 0
+			for (x=0;x<$P.iconSize;x++) {
+				for (y=0;y<$P.iconSize;y++) {
+					data = $C.getImageData(x*$P.intPixelSize+2,y*$P.intPixelSize+2,1,1).data
+					if (data[0] > 128 || data[3] == 0) pixelNum += Math.pow(2,(x+y*$P.iconSize))
+				}
+			}
+			return Base64.encode(pixelNum)
+		}
 	},
 
 	/**
