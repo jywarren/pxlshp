@@ -31,15 +31,21 @@ $P = {
 		window.addEventListener('touchmove',$P.on_mousemove)
 		//setInterval($P.draw,1500)
 		if (args['image_data'] != "") $P.displayIcon(args['image_data'])
+		if (args['icon_id'] != "") $P.icon_id = args['icon_id']
+		if (args['type'] != "") $P.type = args['type']
+		if (args['hash'] != "") {
+			$P.hash = args['hash']
+			$P.decodeIconString($P.hash)
+			$P.generatePermalink()
+		}
 		if ($P.grid) $P.drawGrid() 
-		$P.generatePermalink()
 	},
 	on_mousedown: function(e) {
 		e.preventDefault()
 		$P.dragging = true
 		$P.getPointer(e)
 		if ($P.isBlack($P.pointer_x,$P.pointer_y)) {
-			$P.clear = true
+			$C.fillStyle = "white"
 		} else {
 			$C.fillStyle = "black"
 		}
@@ -48,7 +54,6 @@ $P = {
 	on_mouseup: function(e) {
 		e.preventDefault()
 		$P.dragging = false
-		$P.clear = false
 		if ($P.grid) $P.drawGrid() 
 		$P.generatePermalink()
 	},
@@ -60,14 +65,13 @@ $P = {
 	},
 
 	/**
-	 * Draws a pixel of black or clear at the pointer location
+	 * Draws a pixel of black or white at the pointer location
 	**/
 	drawPixel: function() {
 		x = parseInt($P.pointer_x/$P.width*$P.iconSize)
 		y = parseInt($P.pointer_y/$P.height*$P.iconSize)
-		if (x >= 0 && x < $P.iconSize && y >= 0 && y < $P.iconSize) {
-			if ($P.clear) $C.clearRect(x*$P.pixelSize,y*$P.pixelSize,$P.intPixelSize,$P.intPixelSize)
-			else $C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.intPixelSize,$P.intPixelSize)
+		if ($P.pointer_x >= 0 && $P.pointer_x < $P.width && $P.pointer_y >= 0 && $P.pointer_y < $P.height) {
+			$C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.intPixelSize,$P.intPixelSize)
 		}
 	},
 
@@ -134,6 +138,7 @@ $P = {
 				$C.fillStyle = "rgba("+img[j]+","+img[j+1]+","+img[j+2]+","+img[j+3]+")"
 				$C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.pixelSize,$P.pixelSize)
 			}
+			$P.generatePermalink()
 			if ($P.grid) $P.drawGrid() 
 		}
 		$P.displayImage.src = src
@@ -144,7 +149,6 @@ $P = {
 	**/
 	generatePermalink: function() {
 		s = $P.encodeIconString()
-		console.log(s)
 		$('#permalink').html("/bw8/"+s)
 		$('#permalink')[0].href = "/bw8/"+s
 	},
@@ -156,14 +160,33 @@ $P = {
 		if (type == "gs") {
 			//greyscale
 		} else {
-			pixelNum = 0
-			for (x=0;x<$P.iconSize;x++) {
-				for (y=0;y<$P.iconSize;y++) {
-					data = $C.getImageData(x*$P.intPixelSize+2,y*$P.intPixelSize+2,1,1).data
-					if (data[0] > 128 || data[3] == 0) pixelNum += Math.pow(2,(x+y*$P.iconSize))
+			binary = ""
+			for (y=0;y<$P.iconSize;y++) {
+				for (x=0;x<$P.iconSize;x++) {
+					data = $C.getImageData(parseInt(x*$P.pixelSize+$P.pixelSize/2),parseInt(y*$P.pixelSize+$P.pixelSize/2),1,1).data
+					if (data[0] > 128 || data[3] == 0) binary += "0"
+					else binary += "1"
 				}
 			}
-			return Base64.encode(pixelNum)
+			console.log(binary)
+			console.log(parseInt(binary,2))
+			return Base64.encode(parseInt(binary,2))
+		}
+	},
+
+	decodeIconString: function(string,type) {
+		string = Base64.decode(string)
+		if (type == "gs") {
+			//greyscale
+		} else {
+			binary = parseInt(string).toString(2)
+			for (p = 0;p < binary.length;p++) {
+				y = Math.floor(p/$P.iconSize)
+				x = p-(y*$P.iconSize)
+				if (binary[p] == 1) $C.setFillColor("black")
+				else $C.setFillColor("white")
+				$C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.intPixelSize,$P.intPixelSize)
+			}
 		}
 	},
 

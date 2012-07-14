@@ -8,6 +8,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'create', :controller => 'icons', :action => 'create'
   map.connect 'save/:id', :controller => 'icons', :action => 'save'
   map.connect 'icon/:id', :controller => 'icons', :action => 'edit'
+  map.connect 'bw8/:hash', :controller => 'icons', :action => 'hash'
 
   # Sample of named route:
   #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'

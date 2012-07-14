@@ -8,6 +8,10 @@ class IconsController < ApplicationController
 		@icon = Icon.find(params[:id])
 	end
 
+	def hash
+		render :template => "icons/edit"
+	end
+
 	def save
 		@icon = Icon.find(params[:id])
 		@icon.image_data = params[:image_data]

@@ -1,4 +1,12 @@
 
+bugs:
 
-- reduce size to pixels before saving (so we can just display them directly from dataurl)
+- buggy encoding on line 173 -- we need long int storage???
+
+other:
+
+- store hi-res version of icon for larger display??
+- remove database storage???? or use for above?? or just make efficient javascript renderer for arbitrary size in iframe?
+
+- social media barf
 

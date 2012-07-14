@@ -22,9 +22,13 @@
 (function () { 
 
 	$P.initialize({
+		<% if @icon %>
 		image_data: "<%= @icon.image_data %>",
-		
+		icon_id: <%= @icon.id %>
+		<% else %>
+		type: "bw8",
+		hash: "<%= params[:hash] %>"
+		<% end %>
 	})
-	$P.icon_id = <%= @icon.id %>
 
 })() </script>
