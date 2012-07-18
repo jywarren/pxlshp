@@ -30,6 +30,8 @@ $P = {
 		window.addEventListener('touchstart',$P.on_mousedown)
 		window.addEventListener('touchmove',$P.on_mousemove)
 		//setInterval($P.draw,1500)
+		$C.setFillColor("white")
+		$C.fillRect(0,0,$P.width,$P.height)
 		if (args['image_data'] != "") $P.displayIcon(args['image_data'])
 		if (args['icon_id'] != "") $P.icon_id = args['icon_id']
 		if (args['type'] != "") $P.type = args['type']
@@ -70,7 +72,7 @@ $P = {
 	drawPixel: function() {
 		x = parseInt($P.pointer_x/$P.width*$P.iconSize)
 		y = parseInt($P.pointer_y/$P.height*$P.iconSize)
-		if ($P.pointer_x >= 0 && $P.pointer_x < $P.width && $P.pointer_y >= 0 && $P.pointer_y < $P.height) {
+		if ($P.onCanvas) {
 			$C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.intPixelSize,$P.intPixelSize)
 		}
 	},
@@ -80,15 +82,17 @@ $P = {
 	 * and handles touch events too.
 	**/
 	getPointer: function(e) {
+		offsetX = ($(window).width()-$P.width)/2;
+		offsetY = $P.v_offset;//($(window).height()-$P.height)/2;
 		if (e.touches && (e.touches[0] || e.changedTouches[0])) {
 			var touch = e.touches[0] || e.changedTouches[0];
-			offsetX = ($(window).width()-$P.width)/2;
-			offsetY = $P.v_offset;//($(window).height()-$P.height)/2;
 			$P.pointer_x = touch.pageX - offsetX;
 			$P.pointer_y = touch.pageY - offsetY;
+			$P.onCanvas = (touch.pageX >= offsetX && touch.pageX < offsetX+$P.width && touch.pageY >= offsetY && touch.pageY < offsetY+$P.height)
 		} else {
 			$P.pointer_x = e.offsetX
 			$P.pointer_y = e.offsetY
+			$P.onCanvas = (e.pageX >= offsetX && e.pageX < offsetX+$P.width && e.pageY >= offsetY && e.pageY < offsetY+$P.height)
 		}
 	},
 	isBlack: function(x,y) {
@@ -148,7 +152,7 @@ $P = {
 	 * Generates a b64 permalink and displays it
 	**/
 	generatePermalink: function() {
-		s = $P.encodeIconString()
+//		s = $P.encodeIconString()
 //		$('#permalink').html("/bw8/"+s)
 //		$('#permalink')[0].href = "/bw8/"+s
 	},
@@ -190,22 +194,23 @@ $P = {
 		}
 	},
 
+	saveClose: "(<a href='javascript:void()' onClick='$(\"#notice\").hide()'>close</a>)",
 	/**
 	 * Duh
 	**/
 	save: function() {
-		$('#notice').html("<p>Sending...</p>")
+		$('#notice').html("<p>Sending... "+$P.saveClose+"</p>")
 		$P.getScaledIcon(function() {
 			$.ajax({
 				url:"/save/"+$P.icon_id,
 				type: "POST",
 				data: { image_data: $P.scaled_icon },
 				success: function(data) {
-					$('#notice').html("<p>"+data+"</p>")
+					$('#notice').html("<p>"+data+" "+$P.saveClose+"</p>")
 					setTimeout(function(){ $('#notice').html("") },1500)
 				}, 
 				failure: function(data) {
-					$('#error').html("<p>There was an error</p>")
+					$('#error').html("<p>There was an error"+$P.saveClose+"</p>")
 					setTimeout(function(){ $('#error').html("") },1500)
 				} 
 			})
