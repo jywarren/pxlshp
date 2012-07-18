@@ -2,11 +2,17 @@
 bugs:
 
 - buggy encoding on line 173 -- we need long int storage???
+	- skip actual decimals; Base64.encode supports encoding from strings...
+	- Base64.encode is encoding ASCII, not decimals. Google "decimal to base64 javascript" or binary to base64
+- handle saving??? or just skip and change button to "share"
+	- update save, so we can have galleries. Also good to ref dataURL versions...
+	- store author names?
 
 other:
 
 - store hi-res version of icon for larger display??
-- remove database storage???? or use for above?? or just make efficient javascript renderer for arbitrary size in iframe?
-
+	- or just make an efficient javascript view-only renderer
+- add 4-color mode as option (longer URLs)
+- grid integer spacing
 - social media barf
 
