@@ -102,7 +102,7 @@ $P = {
 	**/
 	drawGrid: function(color) {
 		color = color || "#cccccc"
-		$C.setStrokeColor(color)
+		$C.strokeStyle = color
 		$C.lineWidth = 1
 		for (i=1;i<$P.iconSize;i++) {
 			$C.beginPath()
@@ -149,8 +149,8 @@ $P = {
 	**/
 	generatePermalink: function() {
 		s = $P.encodeIconString()
-		$('#permalink').html("/bw8/"+s)
-		$('#permalink')[0].href = "/bw8/"+s
+//		$('#permalink').html("/bw8/"+s)
+//		$('#permalink')[0].href = "/bw8/"+s
 	},
 
 	/**
@@ -168,8 +168,8 @@ $P = {
 					else binary += "1"
 				}
 			}
-			console.log(binary)
-			console.log(parseInt(binary,2))
+			//console.log(binary)
+			//console.log(parseInt(binary,2))
 			return Base64.encode(parseInt(binary,2))
 		}
 	},
