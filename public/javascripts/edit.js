@@ -194,22 +194,23 @@ $P = {
 		}
 	},
 
+	saveClose: "(<a href='javascript:void()' onClick='$(\"#notice\").hide()'>close</a>)",
 	/**
 	 * Duh
 	**/
 	save: function() {
-		$('#notice').html("<p>Sending...</p>")
+		$('#notice').html("<p>Sending... "+$P.saveClose+"</p>")
 		$P.getScaledIcon(function() {
 			$.ajax({
 				url:"/save/"+$P.icon_id,
 				type: "POST",
 				data: { image_data: $P.scaled_icon },
 				success: function(data) {
-					$('#notice').html("<p>"+data+"</p>")
+					$('#notice').html("<p>"+data+" "+$P.saveClose+"</p>")
 					setTimeout(function(){ $('#notice').html("") },1500)
 				}, 
 				failure: function(data) {
-					$('#error').html("<p>There was an error</p>")
+					$('#error').html("<p>There was an error"+$P.saveClose+"</p>")
 					setTimeout(function(){ $('#error').html("") },1500)
 				} 
 			})
