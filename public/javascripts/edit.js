@@ -218,7 +218,7 @@ $P = {
 	},
 
 	/**
-	 * Returns a dataURL string of any rect from the offered canvas, resized to given h,w
+	 * Returns a dataURL string of the canvas, resized to $P.iconSize x $P.iconSize
 	 */
 	getScaledIcon: function(callback) {
 		$P.on_scaled_icon = callback

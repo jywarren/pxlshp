@@ -27,7 +27,7 @@
 
 		<canvas id="canvas"></canvas>
 
-		<a data-ajax="false" data-role="button" data-theme="b" href="javascript:void()" onTouchEnd="$P.save()" onClick="$P.save();">Save</a>
+		<a data-ajax="false" data-role="button" data-theme="b" id="save">Save<a/>
 	</div>
 </div>
 
@@ -45,5 +45,8 @@
 		hash: "<%= params[:hash] %>"
 		<% end %>
 	})
+
+	$('#save').live('click',function(){ $P.save() })
+	$('#save').live('tap',function(){ $P.save() })
 
 })() </script>
