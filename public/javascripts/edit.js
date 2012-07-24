@@ -1,5 +1,5 @@
 $.ajaxSetup ({ cache: false }); 
-var ajax_load = "<img src='/images/spinner-small.gif' alt='loading...' />";
+//var ajax_load = "<img src='/images/spinner-small.gif' alt='loading...' />";
 
 $P = {
 	pointer_x: 0,
@@ -221,19 +221,19 @@ $P = {
 	 * Returns a dataURL string of the canvas, resized to $P.iconSize x $P.iconSize
 	 */
 	getScaledIcon: function(callback) {
-		$P.on_scaled_icon = callback
-		$P.scaled_image = new Image()
-		$P.scaled_image.onload = function() {
-			$('body').append("<canvas style='' id='excerptCanvas'></canvas>")
-			var element = $('#excerptCanvas')[0]
-			element.width = $P.iconSize
-			element.height = $P.iconSize
-			var excerptCanvasContext = element.getContext('2d')
-			excerptCanvasContext.drawImage($P.scaled_image,0,0,$P.iconSize,$P.iconSize)
-			$P.scaled_icon = excerptCanvasContext.canvas.toDataURL()
-			$P.on_scaled_icon()
+		$('body').append("<canvas style='' id='excerptCanvas'></canvas>")
+		var element = $('#excerptCanvas')[0]
+		element.width = $P.iconSize
+		element.height = $P.iconSize
+		var excerptCanvasContext = element.getContext('2d')
+		for (var x = 0;x< $P.iconSize;x++) {
+			for (var x = 0;x< $P.iconSize;x++) {
+			var sourcedata = $P.getImageData(x*$P.pixelSize+$P.pixelSize/2,y*$P.pixelSize+$P.pixelSize/2,1,1)
+			excerptCanvasContext.putImageData(sourcedata,x,y)
+			}
 		}
-		$P.scaled_image.src = $P.excerptCanvas(0,0,$P.width,$P.height)
+		$P.scaled_icon = excerptCanvasContext.canvas.toDataURL()
+		callback()
 	},
 	/**
 	 * Returns a dataURL string of any rect from the offered canvas
