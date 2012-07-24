@@ -20,14 +20,14 @@ clear_input = function() {
 		<% @icons.each do |icon| %>
 			<div class="icon">
 				<a data-ajax="false" href="/icon/<%= icon.id %>"><img src="<%= icon.image_data %>" /></a><br />
-				<a data-ajax="false" href="/icon/<%= icon.id %>"><%=h icon.name %></a>
+				<!--<a data-ajax="false" href="/icon/<%= icon.id %>"><%=h icon.name %></a>-->
 			</div>
 		<% end %>
 		</div>
 		<br style="clear:both"/>
 
 		<form data-ajax="false" action="/create" method="post">
-			<input class="grey" id="icon_name" type="text" value="Name (optional)" onFocus="clear_input()" name="icon[name]" />
+<!--			<input class="grey" id="icon_name" type="text" value="Name (optional)" onFocus="clear_input()" name="icon[name]" />-->
 			<input type="submit" data-role="button" data-theme="b" href="javascript:void();" value="New" />
 		</form>
 
