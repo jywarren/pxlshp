@@ -226,9 +226,9 @@ $P = {
 		element.width = $P.iconSize
 		element.height = $P.iconSize
 		var excerptCanvasContext = element.getContext('2d')
-		for (var x = 0;x< $P.iconSize;x++) {
-			for (var x = 0;x< $P.iconSize;x++) {
-			var sourcedata = $P.getImageData(x*$P.pixelSize+$P.pixelSize/2,y*$P.pixelSize+$P.pixelSize/2,1,1)
+		for (var x=0;x<$P.iconSize;x++) {
+			for (var y=0;y<$P.iconSize;y++) {
+			var sourcedata = $C.getImageData(x*$P.pixelSize+parseInt($P.pixelSize/2),y*$P.pixelSize+parseInt($P.pixelSize/2),1,1)
 			excerptCanvasContext.putImageData(sourcedata,x,y)
 			}
 		}

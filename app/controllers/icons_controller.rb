@@ -21,8 +21,9 @@ class IconsController < ApplicationController
 	end
 
 	def create
-		name = params[:icon][:name]
-		name = "" if name == "Name (optional)"
+		#name = params[:icon][:name]
+		#name = "" if name == "Name (optional)"
+		name = ""
 		@icon = Icon.new({:name => name})
 		@icon.save!
 		redirect_to "/icon/"+@icon.id.to_s
