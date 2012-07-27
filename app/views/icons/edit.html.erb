@@ -1,7 +1,7 @@
 <div data-role="page" id="page1">
 
 	<div data-theme="d" data-role="header">
-		<a data-ajax="false" data-role="button" data-transition="fade" data-theme="c" href="/">&laquo; Home</a>
+		<a id="home" data-ajax="false" data-role="button" data-theme="c" href="/">&laquo; Home</a>
 		<h3>
 		<% if @icon.id %>
 		<a id="permalink" data-ajax="false" href="/edit/<%= @icon.id %>">permalink</a>
@@ -51,5 +51,6 @@
 
 //	$('#save').live('click',function(){ $P.save() })
 	$('#save').live('tap',function(){ $P.save() })
+	$('#home').live('tap',function(){ window.location = "http://pxlshp.com" })
 
 })() </script>
