@@ -20,27 +20,22 @@ clear_input = function() {
 		<% @icons.each do |icon| %>
 			<div class="icon">
 				<a data-ajax="false" href="/icon/<%= icon.id %>"><img src="<%= icon.image_data %>" /></a><br />
-				<a data-ajax="false" href="/icon/<%= icon.id %>"><%=h icon.name %></a>
+				<!--<a data-ajax="false" href="/icon/<%= icon.id %>"><%=h icon.name %></a>-->
 			</div>
 		<% end %>
 		</div>
 		<br style="clear:both"/>
 
-		<form data-ajax="false" action="/create" method="post">
-			<input class="grey" id="icon_name" type="text" value="Name (optional)" onFocus="clear_input()" name="icon[name]" />
+		<form data-ajax="false" action="/new" method="post">
+<!--			<input class="grey" id="icon_name" type="text" value="Name (optional)" onFocus="clear_input()" name="icon[name]" />-->
 			<input type="submit" data-role="button" data-theme="b" href="javascript:void();" value="New" />
 		</form>
 
-		<p>Pxlshp is <a data-ajax="false" href="https://github.com/jywarren/pxlshp">free software</a> by <a data-ajax="false" href="http://unterbahn.com">Jeffrey Warren</a></p>
+		<p>Pxlshp is <a data-ajax="false" href="https://github.com/jywarren/pxlshp">free software</a> by <a data-ajax="false" href="http://unterbahn.com">Jeffrey Warren</a> | <a href="https://github.com/jywarren/pxlshp/issues/new">Report bugs</a></p>
 
+		<a href="http://twitter.com/share?text=Minimal multitouch monochrome icon editor http://pxlshp.com"><img src="http://unterbahn.com/wp-content/themes/mapcraft/images/twitter.png" /></a>
 	</div>
 </div>
 
 <script src="/javascripts/edit.js"> </script>
 
-<script> 
-(function () { 
-
-
-})() 
-</script>

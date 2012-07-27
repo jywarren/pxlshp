@@ -33,7 +33,8 @@ $P = {
 		$C.setFillColor("white")
 		$C.fillRect(0,0,$P.width,$P.height)
 		if (args['image_data'] != "") $P.displayIcon(args['image_data'])
-		if (args['icon_id'] != "") $P.icon_id = args['icon_id']
+		if (args['icon_id'] != "" || args['icon_id'] == 0) $P.icon_id = args['icon_id']
+		console.log(args['icon_id'])
 		if (args['type'] != "") $P.type = args['type']
 		if (args['hash'] != "") {
 			$P.hash = args['hash']
@@ -199,15 +200,21 @@ $P = {
 	 * Duh
 	**/
 	save: function() {
+		if ($P.icon_id == 0) url = "/create"
+		else url = "/save/"+$P.icon_id
 		$('#notice').html("<p>Sending... "+$P.saveClose+"</p>")
 		$P.getScaledIcon(function() {
 			$.ajax({
-				url:"/save/"+$P.icon_id,
+				url:url,
 				type: "POST",
 				data: { image_data: $P.scaled_icon },
 				success: function(data) {
-					$('#notice').html("<p>"+data+" "+$P.saveClose+"</p>")
-					setTimeout(function(){ $('#notice').html("") },1500)
+					if (data == "Saved!") {
+						$('#notice').html("<p>"+data+" "+$P.saveClose+"</p>")
+						setTimeout(function(){ $('#notice').html("") },1500)
+					} else {
+						window.location = "/icon/"+data
+					}
 				}, 
 				failure: function(data) {
 					$('#error').html("<p>There was an error"+$P.saveClose+"</p>")
@@ -226,9 +233,9 @@ $P = {
 		element.width = $P.iconSize
 		element.height = $P.iconSize
 		var excerptCanvasContext = element.getContext('2d')
-		for (var x = 0;x< $P.iconSize;x++) {
-			for (var x = 0;x< $P.iconSize;x++) {
-			var sourcedata = $P.getImageData(x*$P.pixelSize+$P.pixelSize/2,y*$P.pixelSize+$P.pixelSize/2,1,1)
+		for (var x=0;x<$P.iconSize;x++) {
+			for (var y=0;y<$P.iconSize;y++) {
+			var sourcedata = $C.getImageData(x*$P.pixelSize+parseInt($P.pixelSize/2),y*$P.pixelSize+parseInt($P.pixelSize/2),1,1)
 			excerptCanvasContext.putImageData(sourcedata,x,y)
 			}
 		}

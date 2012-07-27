@@ -16,16 +16,27 @@ class IconsController < ApplicationController
 		@icon = Icon.find(params[:id])
 		@icon.image_data = params[:image_data]
 		@icon.version = @icon.version+1
-		@icon.save
-		render :text => "Saved!"
+		@icon.save!
+		render :text => "Saved!" 
+	end
+
+	def new
+		@icon = Icon.new
+		render :template => "icons/edit"
 	end
 
 	def create
-		name = params[:icon][:name]
-		name = "" if name == "Name (optional)"
+		#name = params[:icon][:name]
+		#name = "" if name == "Name (optional)"
+		name = ""
 		@icon = Icon.new({:name => name})
+		@icon.image_data = params[:image_data] || ""
 		@icon.save!
-		redirect_to "/icon/"+@icon.id.to_s
+		if params[:image_data]
+			render :text => @icon.id
+		else
+			redirect_to "/icon/"+@icon.id.to_s
+		end
 	end
 
 end

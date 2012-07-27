@@ -2,13 +2,15 @@
 
 	<div data-theme="d" data-role="header">
 		<a data-ajax="false" data-role="button" data-transition="fade" data-theme="c" href="/">&laquo; Home</a>
-		<h3><a id="permalink" data-ajax="false" href="/edit/<%= @icon.id %>">permalink</a>
+		<h3>
+		<% if @icon.id %>
+		<a id="permalink" data-ajax="false" href="/edit/<%= @icon.id %>">permalink</a>
 
 		| 
 
 		<span class="social">
 
-			<a href="http://twitter.com/share?text=Balloon exploding at 26km"><img src="http://unterbahn.com/wp-content/themes/mapcraft/images/twitter.png" /></a>
+			<a href="http://twitter.com/share?text=Check my pxlshp icon! http://pxlshp.com/icon/<%= @icon.id %>"><img src="http://unterbahn.com/wp-content/themes/mapcraft/images/twitter.png" /></a>
 
 			<g:plusone></g:plusone>
 			<script src="https://apis.google.com/js/plusone.js"></script>
@@ -17,6 +19,7 @@
 
 		</span>
 		</h3>
+		<% end %>
 
 	</div>
 
@@ -39,14 +42,14 @@
 	$P.initialize({
 		<% if @icon %>
 		image_data: "<%= @icon.image_data %>",
-		icon_id: <%= @icon.id %>
+		icon_id: <%= @icon.id || 0 %>
 		<% else %>
 		type: "bw8",
 		hash: "<%= params[:hash] %>"
 		<% end %>
 	})
 
-	$('#save').live('click',function(){ $P.save() })
+//	$('#save').live('click',function(){ $P.save() })
 	$('#save').live('tap',function(){ $P.save() })
 
 })() </script>
