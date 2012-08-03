@@ -30,7 +30,7 @@ $P = {
 		window.addEventListener('touchstart',$P.on_mousedown)
 		window.addEventListener('touchmove',$P.on_mousemove)
 		//setInterval($P.draw,1500)
-		$C.setFillColor("white")
+		$C.fillStyle = "white"
 		$C.fillRect(0,0,$P.width,$P.height)
 		if (args['image_data'] != "") $P.displayIcon(args['image_data'])
 		if (args['icon_id'] != "" || args['icon_id'] == 0) $P.icon_id = args['icon_id']
@@ -91,8 +91,36 @@ $P = {
 			$P.pointer_y = touch.pageY - offsetY;
 			$P.onCanvas = (touch.pageX >= offsetX && touch.pageX < offsetX+$P.width && touch.pageY >= offsetY && touch.pageY < offsetY+$P.height)
 		} else {
-			$P.pointer_x = e.offsetX
-			$P.pointer_y = e.offsetY
+
+		// Firefox shim for offsetX/Y:
+		// from https://bug69787.bugzilla.mozilla.org/attachment.cgi?id=248546, https://bugzilla.mozilla.org/show_bug.cgi?id=69787
+		var x=0, y=0, fatalerror=0, mozilla=false;
+
+		if (typeof e.offsetX != 'undefined' && typeof e.offsetY != 'undefined') {	// Browser provides the co-ords for us easily (zero-indexed)
+			x = e.offsetX;
+			y = e.offsetY;
+		}
+		else if (e.target) {		// If we have the 'target' of the (click) event - in this case, the image
+			mozilla = true
+			var elem = e.target;
+			do {						// Calc x and y of 'target' element (ie. the image)
+				x += elem.offsetLeft;
+				y += elem.offsetTop;
+			} while (elem = elem.offsetParent);
+			x = (window.pageXOffset + e.clientX) - x;
+			y = (window.pageYOffset + e.clientY) - y;
+		}
+		else {	// Fatal error trying to determine click co-ords!
+			fatalerror = 1;
+		}
+
+// x and y are still zero-indexed...
+		if (!fatalerror) {x++; y++;}
+
+
+
+			$P.pointer_x = x
+			$P.pointer_y = y
 			$P.onCanvas = (e.pageX >= offsetX && e.pageX < offsetX+$P.width && e.pageY >= offsetY && e.pageY < offsetY+$P.height)
 		}
 	},
@@ -188,8 +216,8 @@ $P = {
 			for (p = 0;p < binary.length;p++) {
 				y = Math.floor(p/$P.iconSize)
 				x = p-(y*$P.iconSize)
-				if (binary[p] == 1) $C.setFillColor("black")
-				else $C.setFillColor("white")
+				if (binary[p] == 1) $C.fillStyle = "black"
+				else $C.fillStyle = "white"
 				$C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.intPixelSize,$P.intPixelSize)
 			}
 		}
