@@ -1,5 +1,9 @@
 <!DOCTYPE html>
+<% if params[:action] == "new" %>
+<html manifest="/pxlshp.manifest">
+<% else %>
 <html>
+<% end %>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,8 +11,10 @@
         <link rel="stylesheet" href="/stylesheets/jquery.mobile-1.1.0.min.css" />
         <link rel="stylesheet" href="/stylesheets/mobile.css" />
         <script src="/javascripts/jquery.min.js"></script>
+	<% if params[:action] != "index" %>
         <script src="/javascripts/b64.js"></script>
         <script src="/javascripts/todataurl.js"></script>
+	<% end %>
         <script src="/javascripts/jquery.mobile-1.1.0.min.js"></script>
     </head>
     <body>
