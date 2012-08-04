@@ -4,6 +4,10 @@ class IconsController < ApplicationController
 		@icons = Icon.find :all, :order => "id DESC"
 	end
 
+	def offline
+
+	end
+
 	def edit
 		@icon = Icon.find(params[:id])
 	end

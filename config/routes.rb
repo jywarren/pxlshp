@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect 'create', :controller => 'icons', :action => 'create'
   map.connect 'new', :controller => 'icons', :action => 'new'
+  map.connect 'offline', :controller => 'icons', :action => 'offline'
   map.connect 'save/:id', :controller => 'icons', :action => 'save'
   map.connect 'icon/:id', :controller => 'icons', :action => 'edit'
   map.connect 'bw8/:hash', :controller => 'icons', :action => 'hash'
