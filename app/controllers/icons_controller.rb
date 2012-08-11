@@ -12,6 +12,11 @@ class IconsController < ApplicationController
 		@icon = Icon.find(params[:id])
 	end
 
+	def color
+		@icon = Icon.new
+		render :template => "icons/color"
+	end
+
 	def hash
 		render :template => "icons/edit"
 	end

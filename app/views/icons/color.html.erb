@@ -1,0 +1,57 @@
+<div data-role="page" id="page1">
+
+	<div data-theme="d" data-role="header">
+		<a id="home" data-ajax="false" data-role="button" data-theme="c" href="/">&laquo; Home</a>
+		<a id="color" style="float:right;" data-role="button" data-theme="b"><img src="/images/colors.png" /></a>
+		<h3>
+		<% if @icon.id %>
+		<a id="permalink" data-ajax="false" href="/edit/<%= @icon.id %>">permalink</a>
+
+		| 
+
+		<span class="social">
+
+			<a href="http://twitter.com/share?text=Pxlshp! http://pxlshp.com/icon/<%= @icon.id %>"><img src="/images/twitter.png" /></a>
+
+			<g:plusone></g:plusone>
+			<script src="https://apis.google.com/js/plusone.js"></script>
+
+			<!--<a name="fb_share" type="button_count" share_url="http://pxlshp.irateship.com/edit/<%= @icon.id %>" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script> --> 
+
+		</span>
+		</h3>
+		<% end %>
+
+	</div>
+
+	<p id="notice"></p>
+	<p id="error"></p>
+
+	<div data-role="content" style="padding: 15px; text-align:center;">
+
+		<canvas id="canvas"></canvas>
+
+		<a data-ajax="false" data-role="button" data-theme="b" id="save">Save<a/>
+	</div>
+</div>
+
+<script src="/javascripts/edit.js"> </script>
+
+<script> 
+(function () { 
+
+	$P.initialize({
+		<% if @icon %>
+		image_data: "<%= @icon.image_data %>",
+		icon_id: <%= @icon.id || 0 %>
+		<% else %>
+		type: "bw8",
+		hash: "<%= params[:hash] %>"
+		<% end %>
+	})
+
+//	$('#save').live('click',function(){ $P.save() })
+	$('#save').live('tap',function(){ $P.save() })
+	$('#home').live('tap',function(){ window.location = "http://pxlshp.com" })
+
+})() </script>
