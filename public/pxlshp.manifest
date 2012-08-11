@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# v7 - 2012-08-03
+# v9 - 2012-08-03
 /new
 /javascripts/jquery.min.js
 /javascripts/jquery.mobile-1.1.0.min.js
@@ -9,6 +9,7 @@ CACHE MANIFEST
 /stylesheets/mobile.css
 /stylesheets/jquery.mobile-1.1.0.min.css
 /stylesheets/images/ajax-loader.gif
+/offline
 
 FALLBACK:
 / /offline
