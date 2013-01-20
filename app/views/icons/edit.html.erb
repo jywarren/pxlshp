@@ -4,7 +4,8 @@
 		<a id="home" data-ajax="false" data-role="button" data-theme="c" href="/">&laquo; Home</a>
 		<a style="float:right;" id="new" data-ajax="false" data-role="button" data-theme="b" href="/new">New +</a>
 		<h3>
-		<% if @icon.id %>
+		<% if @word %><a href="javascript:void(0)" id="word" onClick="$('#word').hide()"><%= @word %> (click to hide)</a> 
+		<% elsif @icon.id %>
 		<a id="permalink" data-ajax="false" href="/edit/<%= @icon.id %>">permalink</a>
 
 		| 
@@ -19,8 +20,8 @@
 			<!--<a name="fb_share" type="button_count" share_url="http://pxlshp.irateship.com/edit/<%= @icon.id %>" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script> --> 
 
 		</span>
-		</h3>
 		<% end %>
+		</h3>
 
 	</div>
 

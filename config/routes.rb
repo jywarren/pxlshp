@@ -13,6 +13,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'icon/:id', :controller => 'icons', :action => 'edit'
   map.connect 'bw8/:hash', :controller => 'icons', :action => 'hash'
 
+  map.connect 'word', :controller => 'word', :action => 'index'
+
   # Sample of named route:
   #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
   # This route can be invoked with purchase_url(:id => product.id)
