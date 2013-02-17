@@ -4,7 +4,8 @@
 		<a id="home" data-ajax="false" data-role="button" data-theme="c" href="/">&laquo; Home</a>
 		<a style="float:right;" id="new" data-ajax="false" data-role="button" data-theme="b" href="/new">New +</a>
 		<h3>
-		<% if @icon.id %>
+		<% if @word %><a href="javascript:void(0)" id="word" onClick="$('#word').hide()"><%= @word %> (click to hide)</a> 
+		<% elsif @icon.id %>
 		<a id="permalink" data-ajax="false" href="/edit/<%= @icon.id %>">permalink</a>
 
 		| 
@@ -17,8 +18,8 @@
 			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 		</span>
-		</h3>
 		<% end %>
+		</h3>
 
 	</div>
 
