@@ -51,20 +51,17 @@
     <ul class="nav">
       <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
     </ul>
-    <a style="margin-left:6px;" href="http://publiclaboratory.org/wiki/spectral-workbench" class="btn btn-primary"><i class="icon icon-plus"></i> New</a>
+    <a style="margin-left:6px;" href="http://pxlshp.com/new" class="btn btn-primary"><i class="icon icon-plus"></i> New</a>
   </div>
 </div>
 
 <div class="tab-content container">
 <div id="home" class="tab-pane active">
 
-  <h2>Pxlshp</h2>
-
-  <a class="btn btn-primary btn-large">Save</a>
-
   <canvas id="canvas"></canvas>
+  <a onClick="$P.save()" class="btn btn-primary btn-large">Save</a>
 
-  <script src="/javascripts/edit.js"> </script>
+  <script src="js/edit.js"> </script>
 
   <script> 
   (function () { 
@@ -73,8 +70,6 @@
       image_data: "",
       icon_id: 0
     })
-
-    $('#save').live('tap',function(){ $P.save() })
 
   })() </script>
 
