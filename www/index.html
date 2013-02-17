@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Pxlshp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Jeffrey Warren">
+
+    <!-- Le styles -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script src="js/jquery.min.js"> </script>
+
+  </head>
+
+  <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+  <script type="text/javascript" src="phonegap.js"></script>
+  <script type="text/javascript" src="js/application.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript">
+    app.initialize();
+  </script>
+
+<style>
+  .navbar-fixed-top .nav li {
+    padding-top:3px;
+    font-family:junction,sans-serif;
+  }
+</style>
+
+<div id="header" class="navbar navbar-inverse navbar-static-top" style="margin-bottom:20px;padding-top:0;">
+  <div class="navbar-inner" style="padding:0 10px;">
+    <a class="brand" href="/"><img style="padding:-2px;width:20px;" src="img/logo-small.png" /></a>
+    <ul class="nav">
+      <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+    </ul>
+    <a style="margin-left:6px;" href="http://publiclaboratory.org/wiki/spectral-workbench" class="btn btn-primary"><i class="icon icon-plus"></i> New</a>
+  </div>
+</div>
+
+<div class="tab-content container">
+<div id="home" class="tab-pane active">
+
+  <h2>Pxlshp</h2>
+
+
+  <script src="/javascripts/edit.js"> </script>
+
+  <script> 
+  (function () { 
+
+    $P.initialize({
+      image_data: "",
+      icon_id: 0
+    })
+
+    $('#save').live('tap',function(){ $P.save() })
+
+  })() </script>
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33632168-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+
+</div>
+
+
+</div>
+
+  <footer style="margin-bottom:200px;">
+
+    <hr />
+    <div class="span4">
+      <p><b>Pxlshp</b> is <a href="https://github.com/jywarren/pxlshp">open source software</a></p>
+      <p>Report bugs and help improve this software <a href="https://github.com/jywarren/pxlshp/issues/new">on Github</a></p>
+    </div>
+
+  </footer>
+
+  <!-- Le javascript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="bootstrap/js/bootstrap.typeahead.js"></script>
+  <script>
+    (function() {
+      $("[rel=tooltip]").tooltip()
+      $("[rel=popover]").popover()
+    })()
+  </script>
+  </body>
+</html>
