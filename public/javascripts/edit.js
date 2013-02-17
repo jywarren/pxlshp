@@ -43,7 +43,6 @@ $P = {
 		if ($P.grid) $P.drawGrid() 
 	},
 	on_mousedown: function(e) {
-console.log("mousedown")
 		e.preventDefault()
 		$P.dragging = true
 		$P.getPointer(e)
@@ -71,7 +70,6 @@ console.log("mousedown")
 	 * Draws a pixel of black or white at the pointer location
 	**/
 	drawPixel: function() {
-console.log('drawPixel')
 		x = parseInt($P.pointer_x/$P.width*$P.iconSize)
 		y = parseInt($P.pointer_y/$P.height*$P.iconSize)
 		if ($P.onCanvas) {
@@ -158,7 +156,7 @@ console.log('drawPixel')
 	displayIcon: function(src) {
 		$P.displayImage = new Image()
 		$P.displayImage.onload = function() {
-			$('body').append("<canvas style='' id='displayCanvas'></canvas>")
+			$('body').append("<canvas style='display:none;' id='displayCanvas'></canvas>")
 			var element = $('#displayCanvas')[0]
 			element.width = $P.iconSize
 			element.height = $P.iconSize
@@ -222,14 +220,12 @@ console.log('drawPixel')
 		}
 	},
 
-	saveClose: "(<a href='javascript:void()' onClick='$(\"#notice\").hide()'>close</a>)",
 	/**
 	 * Duh
 	**/
-	save: function() {
+	save: function(anew) {
 		if ($P.icon_id == 0) url = "/create"
 		else url = "/save/"+$P.icon_id
-		$('#notice').html("<p>Sending... "+$P.saveClose+"</p>")
 		$P.getScaledIcon(function() {
 			$.ajax({
 				url:url,
@@ -237,15 +233,15 @@ console.log('drawPixel')
 				data: { image_data: $P.scaled_icon },
 				success: function(data) {
 					if (data == "Saved!") {
-						$('#notice').html("<p>"+data+" "+$P.saveClose+"</p>")
-						setTimeout(function(){ $('#notice').html("") },1500)
+						$P.alert(data,"success",true)
+						setTimeout(function(){ $('#alerts').html("") },1500)
+						if (anew) window.location = "/new"
 					} else {
 						window.location = "/icon/"+data
 					}
 				}, 
 				failure: function(data) {
-					$('#error').html("<p>There was an error"+$P.saveClose+"</p>")
-					setTimeout(function(){ $('#error').html("") },1500)
+					$P.alert("There was an error.","error",true)
 				} 
 			})
 		})
@@ -269,13 +265,24 @@ console.log('drawPixel')
 		$P.scaled_icon = excerptCanvasContext.canvas.toDataURL()
 		callback()
 	},
+
+	/**
+	 * Displays a Bootstrap-style alert of type "type" ("success", "error", "info")
+	 * and fades after 1.5 seconds if "fade" is true
+	 */
+	alert: function(msg,type,fade) {
+		if (type) type = " alert-"+type
+		$('#alerts').append("<div class='alert"+type+"'>"+msg+' <button type="button" class="close" data-dismiss="alert">×</button></div>')
+		if (fade) setTimeout(function(){ $('#alerts').html("") },1500)
+},
+
 	/**
 	 * Returns a dataURL string of any rect from the offered canvas
 	 */
 	excerptCanvas: function(x1,y1,x2,y2,source) {
 		source = source || $C
 		var width = x2-x1, height = y2-y1
-		$('body').append("<canvas style='' id='excerptCanvas'></canvas>")
+		$('body').append("<canvas style='display:none;' id='excerptCanvas'></canvas>")
 		var element = $('#excerptCanvas')[0]
 		element.width = width
 		element.height = height

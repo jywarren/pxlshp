@@ -49,8 +49,11 @@
       </div>
     </div>
 
+    <div class="container" id="alerts"></div>
+
     <%= yield %>
 
+    <% if params[:action] == "index" %>
     <footer style="margin-bottom:200px;">
 
       <hr />
@@ -64,6 +67,7 @@
       </div>
 
     </footer>
+    <% end %>
 
     <!-- Le javascript
     ================================================== -->
