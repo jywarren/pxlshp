@@ -3,14 +3,14 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.publiclab.spectralworkbench"
         version   = "0.1">
-    <name>SpectralWorkbench Mobile</name>
+    <name>Pxlshp</name>
 
     <description>
-        PhoneGap-based mobile app version of SpectralWorkbench.org, focus on iOS
+        A minimal icon-authoring app on the web stack.
     </description>
 
-    <author href="http://publiclaboratory.org" email="web@publiclaboratory.org">
-        Public Lab
+    <author href="http://pxlshp.com" email="jeff@unterbahn.com">
+        Pxlshp
     </author>
 
     <feature name="http://api.phonegap.com/1.0/device" />
@@ -45,7 +45,5 @@
     <gap:splash src="res/screen/ios/screen-ipad-portrait.png"      gap:platform="ios"     width="768" height="1024" />
     <gap:splash src="res/screen/ios/screen-ipad-landscape.png"     gap:platform="ios"     width="1024" height="768" />
     <gap:splash src="res/screen/windows-phone/screen-portrait.jpg" gap:platform="winphone" />
-
-    <gap:plugin name="BarcodeScanner" /> <!-- latest release -->
 
 </widget>
