@@ -1,14 +1,11 @@
 CACHE MANIFEST
-# v63 - 2013-02-17
+# v65 - 2013-02-17
 /new
 /javascripts/jquery.min.js
-/javascripts/jquery.mobile-1.1.0.min.js
 /javascripts/b64.js
 /javascripts/todataurl.js
 /javascripts/edit.js
 /stylesheets/mobile.css
-/stylesheets/jquery.mobile-1.1.0.min.css
-/stylesheets/images/ajax-loader.gif
 /offline
 
 FALLBACK:
