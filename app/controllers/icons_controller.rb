@@ -33,7 +33,7 @@ class IconsController < ApplicationController
 
 	def new
 		@icon = Icon.new
-		render :layout => "bootstrap"
+		render :template => "edit", :layout => "bootstrap"
 	end
 
 	def create
