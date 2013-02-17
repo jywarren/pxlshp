@@ -1,56 +1,52 @@
-<div data-role="page" id="page1">
+<div class="tab-content container">
+<div id="home" class="tab-pane active" style="text-align:center">
 
-	<div data-theme="d" data-role="header">
-		<a id="home" data-ajax="false" data-role="button" data-theme="c" href="/">&laquo; Home</a>
-		<a style="float:right;" id="new" data-ajax="false" data-role="button" data-theme="b" href="/new">New +</a>
-		<h3>
-		<% if @word %><a href="javascript:void(0)" id="word" onClick="$('#word').hide()"><%= @word %> (click to hide)</a> 
-		<% elsif @icon.id %>
-		<a id="permalink" data-ajax="false" href="/edit/<%= @icon.id %>">permalink</a>
+  <p id="notice"></p>
+  <p id="error"></p>
 
-		| 
+  <canvas id="canvas"></canvas>
 
-		<span class="social">
+  <br /><a onClick="$P.save();$('#save').addClass('disabled')" id="save" class="btn btn-inverse btn-large">Save</a>
+  <hr />
 
-			<div class="fb-like" data-send="false" data-layout="button_count" data-width="50" data-show-faces="false" style="vertical-align:top;zoom:1;*display:inline"></div>
+  <span class="social">
+    <div class="fb-like" data-send="false" data-layout="button_count" data-width="50" data-show-faces="false" style="vertical-align:top;zoom:1;*display:inline"></div>
 
-			<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
-			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  </span>
 
-		</span>
-		<% end %>
-		</h3>
+  <script src="/javascripts/edit.js"> </script>
 
-	</div>
+  <script> 
+  (function () { 
 
-	<p id="notice"></p>
-	<p id="error"></p>
+  $P.initialize({
+    <% if @icon %>
+    image_data: "<%= @icon.image_data %>",
+    icon_id: <%= @icon.id || 0 %>
+    <% else %>
+    type: "bw8",
+    hash: "<%= params[:hash] %>"
+    <% end %>
+  })
 
-	<div data-role="content" style="padding: 15px; text-align:center;">
+  })() </script>
 
-		<canvas id="canvas"></canvas>
+  <script type="text/javascript">
 
-		<a data-ajax="false" data-role="button" data-theme="b" id="save">Save<a/>
-	</div>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33632168-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+
 </div>
 
-<script src="/javascripts/edit.js"> </script>
-
-<script> 
-(function () { 
-
-	$P.initialize({
-		<% if @icon %>
-		image_data: "<%= @icon.image_data %>",
-		icon_id: <%= @icon.id || 0 %>
-		<% else %>
-		type: "bw8",
-		hash: "<%= params[:hash] %>"
-		<% end %>
-	})
-
-//	$('#save').live('click',function(){ $P.save() })
-	$('#save').live('tap',function(){ $P.save() })
-	$('#home').live('tap',function(){ window.location = "http://pxlshp.com" })
-
-})() </script>
+</div>

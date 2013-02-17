@@ -2,6 +2,7 @@ class IconsController < ApplicationController
 
 	def index
 		@icons = Icon.find :all, :order => "id DESC"
+		render :layout => "bootstrap"
 	end
 
 	def offline
@@ -10,6 +11,7 @@ class IconsController < ApplicationController
 
 	def edit
 		@icon = Icon.find(params[:id])
+		render :layout => "bootstrap"
 	end
 
 	def color
@@ -31,7 +33,7 @@ class IconsController < ApplicationController
 
 	def new
 		@icon = Icon.new
-		render :template => "icons/edit"
+		render :layout => "bootstrap"
 	end
 
 	def create

@@ -1,42 +1,20 @@
-<script>
-clear_input = function() {
-	$('#icon_name').val("")
-	$('#icon_name').removeClass("grey")
-}
-</script>
+<p id="notice"></p>
+<p id="error"></p>
 
-<div data-role="page" id="page1">
+<style>
+  #icons a {
+    border:2px solid #fff;
+    padding:10px;
+  }
+  #icons a:hover {
+    border:2px solid #ccc;
+  }
+</style>
 
-	<div data-theme="d" data-role="header">
-		<h3><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABIUlEQVQ4T41Ty27EIAwMdJVLElbtLVKi/v9fbZV7u0uUS9SGziCDCGEfSBYC2+PxGFT1fP0g5AxTYrsMXt5bFzgM7IMBXde5eZ4P8Y8AdsDGGGetfQwwDMPGIJpzziilbN/3v8uyaEm+Nk1jcH4L6AHxAscAxymnivMG6jqhQ03ec4Doz6g6OGg3qWypC0BVAI09JfSruq494LquTE6rh0KRRQRAZfafU+X4DgBg8xd0SFVltXiWIJ5fY8Be27Z1UL6igY2nK/169bXW7P0m78NP4jDXguoByE9D/AT29wSgIH6J0kqq7sA5HawqfY28yxlEdQHi/wDbYaHSKywBMPgL9hlY3dvHcdymadKlv/CNJP+BniUXRRTlA/3iZ0vb+QcNA5KIkmKUwwAAAABJRU5ErkJggg==" /> Pxlshp</h3>
-		<a style="float:right;" id="new" data-ajax="false" data-role="button" data-theme="b" href="/new">New +</a>
-	</div>
-
-	<p id="notice"></p>
-	<p id="error"></p>
-
-	<div data-role="content" style="padding: 15px; text-align:center;">
-		
-		<div id="icons">
-		<% @icons.each do |icon| %>
-			<div class="icon">
-				<a data-ajax="false" href="/icon/<%= icon.id %>"><img src="<%= icon.image_data %>" /></a><br />
-				<!--<a data-ajax="false" href="/icon/<%= icon.id %>"><%=h icon.name %></a>-->
-			</div>
-		<% end %>
-		</div>
-		<br style="clear:both"/>
-
-		<form data-ajax="false" action="/new" method="post">
-<!--			<input class="grey" id="icon_name" type="text" value="Name (optional)" onFocus="clear_input()" name="icon[name]" />-->
-			<input type="submit" data-role="button" data-theme="b" href="javascript:void();" value="New" />
-		</form>
-
-		<p>Pxlshp is <a data-ajax="false" href="https://github.com/jywarren/pxlshp">free software</a> by <a data-ajax="false" href="http://unterbahn.com">Jeffrey Warren</a> | <a href="https://github.com/jywarren/pxlshp/issues/new">Report bugs</a> | 
-		<a href="http://twitter.com/share?text=Minimal multitouch monochrome icon editor http://pxlshp.com"><img src="http://unterbahn.com/wp-content/themes/mapcraft/images/twitter.png" /></a>
-		</p>
-	</div>
+<div id="icons" style="padding:20px;">
+<% @icons.each do |icon| %>
+    <a href="/icon/<%= icon.id %>"><img style="width:16px;" src="<%= icon.image_data %>" /></a>
+<% end %>
 </div>
 
-<script src="/javascripts/edit.js"> </script>
-
+<br style="clear:both;" />

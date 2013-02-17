@@ -34,16 +34,16 @@ $P = {
 		$C.fillRect(0,0,$P.width,$P.height)
 		if (args['image_data'] != "") $P.displayIcon(args['image_data'])
 		if (args['icon_id'] != "" || args['icon_id'] == 0) $P.icon_id = args['icon_id']
-		console.log(args['icon_id'])
 		if (args['type'] != "") $P.type = args['type']
 		if (args['hash'] != "") {
 			$P.hash = args['hash']
 			$P.decodeIconString($P.hash)
-			$P.generatePermalink()
+			//$P.generatePermalink()
 		}
 		if ($P.grid) $P.drawGrid() 
 	},
 	on_mousedown: function(e) {
+console.log("mousedown")
 		e.preventDefault()
 		$P.dragging = true
 		$P.getPointer(e)
@@ -58,7 +58,7 @@ $P = {
 		e.preventDefault()
 		$P.dragging = false
 		if ($P.grid) $P.drawGrid() 
-		$P.generatePermalink()
+		//$P.generatePermalink()
 	},
 	on_mousemove: function(e) {
 		if ($P.dragging) {
@@ -71,6 +71,7 @@ $P = {
 	 * Draws a pixel of black or white at the pointer location
 	**/
 	drawPixel: function() {
+console.log('drawPixel')
 		x = parseInt($P.pointer_x/$P.width*$P.iconSize)
 		y = parseInt($P.pointer_y/$P.height*$P.iconSize)
 		if ($P.onCanvas) {
@@ -171,19 +172,19 @@ $P = {
 				$C.fillStyle = "rgba("+img[j]+","+img[j+1]+","+img[j+2]+","+img[j+3]+")"
 				$C.fillRect(x*$P.pixelSize,y*$P.pixelSize,$P.pixelSize,$P.pixelSize)
 			}
-			$P.generatePermalink()
+			//$P.generatePermalink()
 			if ($P.grid) $P.drawGrid() 
 		}
 		$P.displayImage.src = src
 	},
 
 	/**
-	 * Generates a b64 permalink and displays it
+	 * Generates a b64 permalink and displays it; ended up impractical
 	**/
 	generatePermalink: function() {
-//		s = $P.encodeIconString()
-//		$('#permalink').html("/bw8/"+s)
-//		$('#permalink')[0].href = "/bw8/"+s
+		s = $P.encodeIconString()
+		$('#permalink').html("/bw8/"+s)
+		$('#permalink')[0].href = "/bw8/"+s
 	},
 
 	/**
@@ -201,8 +202,6 @@ $P = {
 					else binary += "1"
 				}
 			}
-			//console.log(binary)
-			//console.log(parseInt(binary,2))
 			return Base64.encode(parseInt(binary,2))
 		}
 	},
