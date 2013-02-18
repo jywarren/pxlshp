@@ -44,7 +44,11 @@ class IconsController < ApplicationController
 		@icon.image_data = params[:image_data] || ""
 		@icon.save!
 		if params[:image_data]
-			render :text => @icon.id
+			if params[:external]
+				redirect_to "/icon/"+@icon.id.to_s
+			else
+				render :text => @icon.id
+			end
 		else
 			redirect_to "/icon/"+@icon.id.to_s
 		end
