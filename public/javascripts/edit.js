@@ -22,9 +22,13 @@ $P = {
 		$P.pixelSize = $P.width/$P.iconSize
 		$P.intPixelSize = Math.floor($P.width/$P.iconSize)
 		$P.grid = args['grid'] || true
+		$P.pointerActive = false
 		$('body').mouseup($P.on_mouseup)
 		$('body').mousedown($P.on_mousedown)
 		$('body').mousemove($P.on_mousemove)
+		//$(window).bind('touchend',$P.on_mouseup)
+		//$(window).bind('touchstart',$P.on_mousedown)
+		//$(window).bind('touchmove',$P.on_mousemove)
 		window.addEventListener('touchend',$P.on_mouseup)
 		window.addEventListener('touchstart',$P.on_mousedown)
 		window.addEventListener('touchmove',$P.on_mousemove)
@@ -42,18 +46,22 @@ $P = {
 		if ($P.grid) $P.drawGrid() 
 	},
 	on_mousedown: function(e) {
-		e.preventDefault()
-		$P.dragging = true
 		$P.getPointer(e)
-		if ($P.isBlack($P.pointer_x,$P.pointer_y)) {
-			$C.fillStyle = "white"
-		} else {
-			$C.fillStyle = "black"
+		if ($P.onCanvas) e.preventDefault()
+		if (!$P.pointerActive) {
+			$P.pointerActive = true
+			$P.dragging = true
+			if ($P.isBlack($P.pointer_x,$P.pointer_y)) {
+				$C.fillStyle = "white"
+			} else {
+				$C.fillStyle = "black"
+			}
+			$P.drawPixel()
 		}
-		$P.drawPixel()
 	},
 	on_mouseup: function(e) {
-		e.preventDefault()
+		$P.pointerActive = false
+		//e.preventDefault()
 		$P.dragging = false
 		if ($P.grid) $P.drawGrid() 
 		//$P.generatePermalink()
@@ -117,9 +125,9 @@ $P = {
 
 
 
-			$P.pointer_x = x
-			$P.pointer_y = y
-			$P.onCanvas = (e.pageX >= offsetX && e.pageX < offsetX+$P.width && e.pageY >= offsetY && e.pageY < offsetY+$P.height)
+		$P.pointer_x = x
+		$P.pointer_y = y
+		$P.onCanvas = (e.pageX >= offsetX && e.pageX < offsetX+$P.width && e.pageY >= offsetY && e.pageY < offsetY+$P.height)
 		}
 	},
 	isBlack: function(x,y) {
@@ -231,8 +239,9 @@ $P = {
 				type: "POST",
 				data: { image_data: $P.scaled_icon },
 				success: function(data) {
+					$('#save').button('reset');
+					$('#save-anew').button('reset');
 					if (data == "Saved!") {
-						$P.alert(data,"success",true)
 						setTimeout(function(){ $('#alerts').html("") },1500)
 						if (anew) window.location = "/new"
 					} else {
@@ -250,7 +259,7 @@ $P = {
 	 * Returns a dataURL string of the canvas, resized to $P.iconSize x $P.iconSize
 	 */
 	getScaledIcon: function(callback) {
-		$('body').append("<canvas style='' id='excerptCanvas'></canvas>")
+		$('body').append("<canvas style='display:none;' id='excerptCanvas'></canvas>")
 		var element = $('#excerptCanvas')[0]
 		element.width = $P.iconSize
 		element.height = $P.iconSize
