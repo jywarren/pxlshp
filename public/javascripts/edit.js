@@ -231,9 +231,9 @@ $P = {
 	/**
 	 * Duh
 	**/
-	save: function(anew,url) {
+	save: function(anew) {
 		if ($P.icon_id == 0) url = $P.url+"/create"
-		else url = url+"/save/"+$P.icon_id
+		else url = $P.url+"/save/"+$P.icon_id
 		$P.getScaledIcon(function() {
 			$.ajax({
 				url:url,
