@@ -232,6 +232,7 @@ $P = {
 	 * Duh
 	**/
 	save: function(anew) {
+		$P.start_fresh = anew
 		if ($P.icon_id == 0) url = "/create"
 		else url = "/save/"+$P.icon_id
 		$P.getScaledIcon(function() {
@@ -243,9 +244,11 @@ $P = {
 					success: function(data) {
 						$('#save').button('reset');
 						$('#save-anew').button('reset');
+						//$('#save').removeClass('disabled');
+						//$('#save-anew').removeClass('disabled');
 						if (data == "Saved!") {
 							setTimeout(function(){ $('#alerts').html("") },1500)
-							if (anew) window.location = "/new"
+							if ($P.start_fresh) window.location = "/new"
 						} else {
 							window.location = "/icon/"+data
 						}
