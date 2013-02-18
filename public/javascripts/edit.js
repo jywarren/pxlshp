@@ -246,9 +246,9 @@ $P = {
 						$('#save-anew').button('reset');
 						//$('#save').removeClass('disabled');
 						//$('#save-anew').removeClass('disabled');
-						if (data == "Saved!") {
+						if ($P.start_fresh) window.location = "/new"
+						else if (data == "Saved!") {
 							setTimeout(function(){ $('#alerts').html("") },1500)
-							if ($P.start_fresh) window.location = "/new"
 						} else {
 							window.location = "/icon/"+data
 						}
