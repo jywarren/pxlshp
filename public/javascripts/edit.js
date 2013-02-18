@@ -21,7 +21,7 @@ $P = {
 		$P.iconSize = 16
 		$P.pixelSize = $P.width/$P.iconSize
 		$P.intPixelSize = Math.floor($P.width/$P.iconSize)
-		$P.url = args['url'] || ''
+		$P.phonegap = args['phonegap'] || false
 		$P.grid = args['grid'] || true
 		$P.pointerActive = false
 		$('body').mouseup($P.on_mouseup)
@@ -232,27 +232,32 @@ $P = {
 	 * Duh
 	**/
 	save: function(anew) {
-		if ($P.icon_id == 0) url = $P.url+"/create"
-		else url = $P.url+"/save/"+$P.icon_id
+		if ($P.icon_id == 0) url = "/create"
+		else url = "/save/"+$P.icon_id
 		$P.getScaledIcon(function() {
-			$.ajax({
-				url:url,
-				type: "POST",
-				data: { image_data: $P.scaled_icon },
-				success: function(data) {
-					$('#save').button('reset');
-					$('#save-anew').button('reset');
-					if (data == "Saved!") {
-						setTimeout(function(){ $('#alerts').html("") },1500)
-						if (anew) window.location = $P.url+"/new"
-					} else {
-						window.location = $P.url+"/icon/"+data
-					}
-				}, 
-				failure: function(data) {
-					$P.alert("There was an error.","error",true)
-				} 
-			})
+			if ($P.phonegap) {
+				$.ajax({
+					url:url,
+					type: "POST",
+					data: { image_data: $P.scaled_icon },
+					success: function(data) {
+						$('#save').button('reset');
+						$('#save-anew').button('reset');
+						if (data == "Saved!") {
+							setTimeout(function(){ $('#alerts').html("") },1500)
+							if (anew) window.location = "/new"
+						} else {
+							window.location = "/icon/"+data
+						}
+					}, 
+					failure: function(data) {
+						$P.alert("There was an error.","error",true)
+					} 
+				})
+			} else {
+				$('#postform_image_data').val($P.scaled_icon)
+				$('#postform').submit()
+			}
 		})
 	},
 
