@@ -10,11 +10,10 @@ $P = {
 	 * Startup environment, accepts data_url or just URL of starting image
 	**/
 	initialize: function(args) {
-		$P.element = $('#canvas')
 		$P.element = $('#canvas')[0]
 		$P.canvas = $P.element.getContext('2d');
 		$C = $P.canvas
-		if ($(window).width() < $(window).height()) $P.width = args['displaySize'] || $(window).width()-36 //256
+		if ($(window).width() < $(window).height()) $P.width = args['displaySize'] || $(window).width()-64 //256
 		else $P.width = args['displaySize'] || ($(window).width()-30)/3
 		$P.height = $P.width
 		$P.element.width = $P.width

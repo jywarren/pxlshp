@@ -1,10 +1,10 @@
 CACHE MANIFEST
-# v65 - 2013-02-17
-/new
+# v84 - 2013-02-17
+#/new
 /javascripts/jquery.min.js
 /javascripts/b64.js
 /javascripts/todataurl.js
-/javascripts/edit.js
+#/javascripts/edit.js
 /stylesheets/mobile.css
 /offline
 
