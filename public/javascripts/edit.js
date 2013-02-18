@@ -236,7 +236,7 @@ $P = {
 		if ($P.icon_id == 0) url = "/create"
 		else url = "/save/"+$P.icon_id
 		$P.getScaledIcon(function() {
-			if ($P.phonegap) {
+			if (!$P.phonegap) {
 				$.ajax({
 					url:url,
 					type: "POST",
