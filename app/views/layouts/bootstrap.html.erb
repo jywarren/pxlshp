@@ -42,8 +42,8 @@
       <div class="navbar-inner" style="padding:0 10px;">
         <a class="brand" href="/"><img style="padding:-2px;width:20px;" src="/images/mnls.png" /></a>
         <ul class="nav">
-          <li class="active"><a href="/" data-toggle="tab">Pxlshp</a></li>
-          <% unless @icon.nil? %><li><a id="permalink" data-ajax="false" href="/edit/<%= @icon.id %>">permalink</a></li><% end %>
+          <li><a href="/">Pxlshp</a></li>
+          <% unless @icon.nil? %><li><a id="permalink" href="/edit/<%= @icon.id %>">permalink</a></li><% end %>
         </ul>
         <a href="/new" class="btn"><i class="icon icon-plus-sign"></i> New</a>
       </div>
