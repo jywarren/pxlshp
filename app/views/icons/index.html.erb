@@ -5,15 +5,17 @@
   #icons a {
     border:2px solid #fff;
     padding:10px;
+    float:left;
+    display:block;
   }
   #icons a:hover {
     border:2px solid #ccc;
   }
 </style>
 
-<div id="icons" style="padding:20px;">
+<div id="icons" style="padding:10px;">
 <% @icons.each do |icon| %>
-    <a href="/icon/<%= icon.id %>"><img style="width:16px;" src="<%= icon.image_data %>" /></a>
+    <a href="/icon/<%= icon.id %>"><img style="width:24px;" src="<%= icon.image_data %>" /></a>
 <% end %>
 </div>
 
