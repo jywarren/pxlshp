@@ -21,6 +21,7 @@ $P = {
 		$P.iconSize = 16
 		$P.pixelSize = $P.width/$P.iconSize
 		$P.intPixelSize = Math.floor($P.width/$P.iconSize)
+		$P.url = args['url'] || ''
 		$P.grid = args['grid'] || true
 		$P.pointerActive = false
 		$('body').mouseup($P.on_mouseup)
@@ -231,7 +232,7 @@ $P = {
 	 * Duh
 	**/
 	save: function(anew,url) {
-		if ($P.icon_id == 0) url = url+"/create"
+		if ($P.icon_id == 0) url = $P.url+"/create"
 		else url = url+"/save/"+$P.icon_id
 		$P.getScaledIcon(function() {
 			$.ajax({
@@ -243,9 +244,9 @@ $P = {
 					$('#save-anew').button('reset');
 					if (data == "Saved!") {
 						setTimeout(function(){ $('#alerts').html("") },1500)
-						if (anew) window.location = "/new"
+						if (anew) window.location = $P.url+"/new"
 					} else {
-						window.location = "/icon/"+data
+						window.location = $P.url+"/icon/"+data
 					}
 				}, 
 				failure: function(data) {
