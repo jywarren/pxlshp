@@ -14,8 +14,23 @@ h1,h2,h3,h4,.lead,#header {
   font-weight:normal;
 }
 
+#header .brand {
+  padding-right:6px;
+}
+
 #header .navbar-inner {
   margin-right:-40px;
+}
+
+#header .nav li {
+  padding-top:4px;
+}
+
+#header .btn {
+  padding-top:8px;
+}
+#header .btn .icon {
+  margin-top:0px;
 }
 
 .navbar-fixed-top .nav li {

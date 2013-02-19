@@ -12,6 +12,9 @@
     <meta name="description" content="">
     <meta name="author" content="Jeffrey Warren">
 
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
     <!-- Le styles -->
     <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
@@ -43,7 +46,7 @@
         <a class="brand" href="/"><img style="padding:-2px;width:20px;" src="/images/mnls.png" /></a>
         <ul class="nav">
           <li><a href="/">Pxlshp</a></li>
-          <% unless @icon.nil? %><li><a id="permalink" href="/icon/<%= @icon.id %>"><i class="icon icon-share icon-white"></i></a></li><% end %>
+          <% if !@icon.nil? && params[:action] == "edit" %><li><a id="permalink" href="/icon/<%= @icon.id %>"><i class="icon icon-share icon-white"></i></a></li><% end %>
         </ul>
         <a href="/new" class="btn"><i class="icon icon-plus-sign"></i> New</a>
       </div>
@@ -58,7 +61,7 @@
 
       <hr />
       <div class="span6">
-	<p>Pxlshp is <a data-ajax="false" href="https://github.com/jywarren/pxlshp">free software</a> by <a data-ajax="false" href="http://unterbahn.com">Jeffrey Warren</a> | <a href="https://github.com/jywarren/pxlshp/issues/new">Report bugs</a> | 
+	<p>Pxlshp is <a data-ajax="false" href="https://github.com/jywarren/pxlshp">free software</a> by <a data-ajax="false" href="http://unterbahn.com">Jeffrey Warren</a> | <a href="https://github.com/jywarren/pxlshp/issues/new">Report bugs</a> 
         <div class="fb-like" data-send="false" data-layout="button_count" data-width="50" data-show-faces="false" style="vertical-align:top;zoom:1;*display:inline"></div>
 
         <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
