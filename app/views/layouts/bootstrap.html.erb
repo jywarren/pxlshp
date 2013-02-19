@@ -53,7 +53,7 @@
 
     <%= yield %>
 
-    <% if params[:action] == "index" %>
+    <% if params[:action] == "index" && params[:action] != "new" %>
     <footer style="margin-bottom:200px;">
 
       <hr />
