@@ -1,12 +1,14 @@
 CACHE MANIFEST
 # v92 - 2013-02-18
-#/new
+/new
 /javascripts/jquery.min.js
 /javascripts/b64.js
 /javascripts/todataurl.js
-#/javascripts/edit.js
+/javascripts/edit.js
 /stylesheets/mobile.css
 /offline
+/images/mnls.png
+/bootstrap/*
 
 FALLBACK:
 / /offline
