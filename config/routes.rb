@@ -7,7 +7,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect 'create', :controller => 'icons', :action => 'create'
   map.connect 'new', :controller => 'icons', :action => 'new'
-  map.connect 'color', :controller => 'icons', :action => 'color'
+  map.connect 'color/new', :controller => 'icons', :action => 'color'
+  map.connect 'color', :controller => 'icons', :action => 'index_color'
   map.connect 'offline', :controller => 'icons', :action => 'offline'
   map.connect 'save/:id', :controller => 'icons', :action => 'save'
   map.connect 'icon/:id', :controller => 'icons', :action => 'edit'

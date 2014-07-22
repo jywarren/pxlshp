@@ -1,6 +1,32 @@
+
 <div class="tab-content container">
 <div id="home" class="tab-pane active" style="text-align:center">
-  <canvas id="canvas" style="margin-bottom:10px;"></canvas>
+
+  <div id="palette" style="display:none;">
+  <p style="font-size:40px;width:40%;margin:10px auto 20px;">
+    <% colors = [
+       'f00',
+       '00f',
+       'ff0',
+       '0ff',
+       'f0f',
+       '8ff',
+       'f8f',
+       'ff8',
+       '88f',
+       'f88',
+       '8f8',
+       '000'
+       ] 
+    %>
+    <i onClick="$P.color = this.style.color;$('#palette-btn')[0].style.color = this.style.color;$('#palette').hide()" class="icon icon-circle" style="color:white;"></i>
+    <% colors.each do |c| %>
+    <i onClick="$P.color = this.style.color;$('#palette-btn')[0].style.color = this.style.color;$('#palette').hide()" class="icon icon-circle" style="color:#<%= c %>;"></i>
+    <% end %>
+  </p>
+  </div>
+
+  <canvas id="canvas" style="clear:both;margin-bottom:10px;"></canvas>
   <br />
 
   <button style="padding-left:15px;padding-right:15px;" onTouchEnd="$('#save').button('loading');$('#save-anew').addClass('disabled');$P.save(false)" onClick="$('#save').button('loading');$P.save(false)" data-loading-text="Saving..." id="save" class="btn btn-inverse btn-large">Save</button>
@@ -21,6 +47,10 @@
   (function () { 
 
   $P.initialize({
+    <% if @color %>
+    size: 32,
+    mode: 'color',
+    <% end %>
     <% if @icon %>
     image_data: "<%= @icon.image_data %>",
     icon_id: <%= @icon.id || 0 %>
@@ -48,6 +78,24 @@
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
+
+  window.addEventListener('load', function(e) {
+    if (window.applicationCache) {
+      window.applicationCache.addEventListener('updateready', function(e) {
+          if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+            // Browser downloaded a new app cache.
+            // Swap it in and reload the page to get the new hotness.
+            window.applicationCache.swapCache();
+            if (confirm('A new version of this site is available. Load it?')) {
+              window.location.reload();
+            }
+          } else {
+            // Manifest didn't changed. Nothing new to server.
+          }
+      }, false);
+    }
+  }, false);
+
 
   </script>
 
