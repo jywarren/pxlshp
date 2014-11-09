@@ -1,6 +1,7 @@
 CACHE MANIFEST
-# v94 - 2013-02-24
+# v137 - 2014-11-8
 /new
+/color/new
 /javascripts/jquery.min.js
 /javascripts/b64.js
 /javascripts/todataurl.js
@@ -8,8 +9,16 @@ CACHE MANIFEST
 /stylesheets/mobile.css
 /offline
 /images/mnls.png
-/bootstrap/*
-/css/*
+#/bootstrap/*
+/bootstrap/js/bootstrap.min.js
+/bootstrap/css/bootstrap.css
+/bootstrap/css/bootstrap-responsive.css
+/css/bootstrap.css
+#/fontawesome/*
+/fontawesome/font/fontawesome-webfont.woff?v=3.0.1
+/fontawesome/css/font-awesome.min.css
+#/javascripts/*
+/bootstrap/js/bootstrap.min.js
 
 FALLBACK:
 / /offline

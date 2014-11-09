@@ -1,14 +1,100 @@
 <!DOCTYPE html>
+<% if params[:action] == "new" %>
+<html manifest="/pxlshp.manifest">
+<% else %>
 <html>
-<head>
-  <title>Pxlshp</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+<% end %>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Pxlshp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Jeffrey Warren">
 
-<%= yield %>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-opaque" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon-precomposed" href="/images/mnls-57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/mnls-72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/mnls-114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/mnls-144.png" />
 
-</body>
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/fontawesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script src="/javascripts/jquery.min.js"> </script>
+    <script src="/javascripts/b64.js"></script>
+    <script src="/javascripts/todataurl.js"></script>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+
+  </head>
+
+  <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <div id="header" class="navbar navbar-inverse navbar-static-top" style="margin-bottom:20px;padding-top:0;">
+      <div class="navbar-inner" style="padding:0 10px;">
+        <a class="brand" href="/"><img style="padding:-2px;width:20px;" src="/images/mnls.png" /></a>
+        <ul class="nav">
+          <li><a href="/">Pxlshp</a></li>
+          <% if !@icon.nil? && params[:action] == "edit" %><li><a id="permalink" href="/icon/<%= @icon.id %>"><i class="icon icon-share icon-white"></i></a></li><% end %>
+        </ul>
+        <% if @color %>
+          <a href="/color/new" class="btn"><i class="icon icon-plus-sign"></i> New</a>
+          <% if params[:action] != "index_color" %><a onClick="$('#palette').toggle()" class="btn"><i id="palette-btn" class="icon icon-circle"></i></a><% end %>
+        <% else %>
+          <a href="/new" class="btn"><i class="icon icon-plus-sign"></i> New</a>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="container" id="alerts"></div>
+
+    <%= yield %>
+
+    <% if params[:action] == "index" && params[:action] != "new" %>
+    <footer style="margin-bottom:200px;">
+
+      <hr />
+      <div class="span6">
+	<p>Pxlshp is <a data-ajax="false" href="https://github.com/jywarren/pxlshp">free software</a> by <a data-ajax="false" href="http://unterbahn.com">Jeffrey Warren</a> | <a href="https://github.com/jywarren/pxlshp/issues/new">Report bugs</a> 
+        <div class="fb-like" data-send="false" data-layout="button_count" data-width="50" data-show-faces="false" style="vertical-align:top;zoom:1;*display:inline"></div>
+
+        <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</p>
+      </div>
+
+    </footer>
+    <% end %>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.typeahead.js"></script>
+    <script>
+      (function() {
+        $("[rel=tooltip]").tooltip()
+        $("[rel=popover]").popover()
+      })()
+    </script>
+  </body>
 </html>

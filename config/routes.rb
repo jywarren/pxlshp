@@ -10,7 +10,8 @@ Rails.application.routes.draw do
 
   post 'create' => 'icons#create'
   get 'new' => 'icons#new'
-  get 'color' => 'icons#color'
+  get 'color' => 'icons#index_color'
+  get 'color/new' => 'icons#color'
   get 'offline' => 'icons#offline'
   post 'save/:id' => 'icons#save'
   get 'icon/:id' => 'icons#edit'

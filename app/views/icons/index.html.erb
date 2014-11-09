@@ -15,7 +15,7 @@
 
 <div id="icons" style="padding:10px;">
 <% @icons.each do |icon| %>
-    <a href="/icon/<%= icon.id %>"><img style="width:24px;" src="<%= icon.image_data %>" /></a>
+    <a href="/icon/<%= icon.id %>"><img style="width:<%= @color ? 64 : 32 %>px;" src="<%= icon.image_data %>" /></a>
 <% end %>
 </div>
 

@@ -38,6 +38,15 @@ h1,h2,h3,h4,.lead,#header {
   font-family:junction,sans-serif;
 }
 
+#palette {
+  position:absolute;
+  top:10%;
+  z-index:10;
+  border:8px solid #ccc;
+  background:#eee;
+  width:80%;
+}
+
 canvas { 
 	background:white; 
 	border:2px solid #aaa;

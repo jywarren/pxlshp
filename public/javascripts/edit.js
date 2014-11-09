@@ -3,6 +3,7 @@ $.ajaxSetup ({ cache: false });
 
 $P = {
   pointer_x: 0,
+  color: 'black',
   pointer_y: 0,
   v_offset: 60, // height of the canvas below top of page, used only for touch events
 
@@ -19,7 +20,8 @@ $P = {
     $P.authenticity_token = args['authenticity_token'] 
     $P.element.width = $P.width
     $P.element.height = $P.width
-    $P.iconSize = 16
+    $P.iconSize = args['size'] || 16
+    $P.mode = args['mode'] || 'bw'
     $P.pixelSize = $P.width/$P.iconSize
     $P.intPixelSize = Math.floor($P.width/$P.iconSize)
     $P.phonegap = args['phonegap'] || false
@@ -53,10 +55,20 @@ $P = {
     if (!$P.pointerActive) {
       $P.pointerActive = true
       $P.dragging = true
-      if ($P.isBlack($P.pointer_x,$P.pointer_y)) {
-        $C.fillStyle = "white"
+
+      if ($P.mode == 'color') {
+        // erase if it's colored, else color it      
+        if ($P.isWhite($P.pointer_x,$P.pointer_y)) {
+          $C.fillStyle = $P.color
+        } else {
+          $C.fillStyle = "white"
+        }
       } else {
-        $C.fillStyle = "black"
+        if ($P.isBlack($P.pointer_x,$P.pointer_y)) {
+          $C.fillStyle = "white" 
+        } else {
+          $C.fillStyle = "black"
+        }
       }
       $P.drawPixel()
     }
@@ -125,18 +137,21 @@ $P = {
 // x and y are still zero-indexed...
     if (!fatalerror) {x++; y++;}
 
-
-
     $P.pointer_x = x
     $P.pointer_y = y
     $P.onCanvas = (e.pageX >= offsetX && e.pageX < offsetX+$P.width && e.pageY >= offsetY && e.pageY < offsetY+$P.height)
     }
   },
+
   isBlack: function(x,y) {
     px = $C.getImageData(x+2,y+2,1,1).data
     return px[0] == 0 && px[1] == 0 && px[2] == 0 && px[3] != 0
   },
 
+  isWhite: function(x,y) {
+    px = $C.getImageData(x+2,y+2,1,1).data
+    return px[0] == 255 && px[1] == 255 && px[2] == 255 && px[3] != 0
+  },
 
   /**
    * Draws a pixel grid 

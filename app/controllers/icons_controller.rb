@@ -1,17 +1,21 @@
 class IconsController < ApplicationController
 
   def index
-    @icons = Icon.all.order("id DESC")
-    render :layout => "bootstrap"
+    @icons = Icon.all.order("id DESC").where(mode: 'bw')
+  end
+
+  def index_color 
+    @icons = Icon.all.order("id DESC").where(mode: 'color')
+    @color = true
+    render :template => "icons/index"
   end
 
   def offline
-
   end
 
   def edit
     @icon = Icon.find(params[:id])
-    render :layout => "bootstrap"
+    @color = @icon.mode == 'color'
   end
 
   def color
@@ -33,7 +37,7 @@ class IconsController < ApplicationController
 
   def new
     @icon = Icon.new
-    render :template => "icons/edit", :layout => "bootstrap"
+    render :template => "icons/edit"
   end
 
   def create
@@ -42,6 +46,7 @@ class IconsController < ApplicationController
     name = ""
     @icon = Icon.new({:name => name})
     @icon.image_data = params[:image_data] || ""
+    @icon.mode = params[:mode] || "bw"
     @icon.save!
     if params[:image_data]
       if params[:external]
