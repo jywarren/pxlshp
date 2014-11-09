@@ -1,3 +1,5 @@
 PXLSHP
 
 A very simple web/mobile pixel editor using Canvas, jQuery and Bootstrap
+
+Uses, currently: Rails 4, Ruby 2.1.2
