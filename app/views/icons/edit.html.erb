@@ -22,6 +22,7 @@
 
   $P.initialize({
     <% if @icon %>
+    authenticity_token: "<%= form_authenticity_token %>",
     image_data: "<%= @icon.image_data %>",
     icon_id: <%= @icon.id || 0 %>
     <% else %>
